@@ -12,7 +12,6 @@ class Popover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return Container(
      // margin: const EdgeInsets.all(16.0),
       clipBehavior: Clip.antiAlias,

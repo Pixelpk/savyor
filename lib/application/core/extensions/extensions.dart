@@ -17,7 +17,12 @@ extension StringExtension on String {
   int toInt() => int.parse(this);
 
   double toFloat() => double.parse(this);
-
+  String capitalize() {
+    if(this.trim().isNotEmpty) {
+      return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+    }
+    return "";
+  }
   String defaultOnEmpty([String defaultValue = ""]) => isEmpty ? defaultValue : this;
 }
 

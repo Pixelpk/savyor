@@ -8,9 +8,10 @@ class ReceiveTimeoutFailure implements Failure {}
 class SendTimeoutFailure implements Failure {}
 
 class ResponseFailure implements Failure {
-  ResponseFailure({required this.msg});
+  ResponseFailure({required this.msg, this.code});
 
   String msg;
+  dynamic code;
 }
 
 class OtherFailure implements Failure {}

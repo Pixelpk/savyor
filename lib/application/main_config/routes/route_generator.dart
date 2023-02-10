@@ -7,21 +7,28 @@ class RouteGenerator {
       case RoutePath.initialRoute:
         return PageRouter.fadeScale(() => SplashScreen());
       case RoutePath.login:
-        return PageRouter.fadeScale(() => LoginScreen());
+        return PageRouter.fadeScale(
+            () => ChangeNotifierProvider(create: (_) => LoginViewModel(), child: LoginScreen()));
       case RoutePath.forgotPassword:
-        return PageRouter.fadeScale(() => ForgotPasswordScreen());
+        return PageRouter.fadeScale(() => ChangeNotifierProvider(create: (_) => LoginViewModel(),child: ForgotPasswordScreen()));
       case RoutePath.pinCode:
-        return PageRouter.fadeScale(() => PinCodeScreen(email: args as String,));
+        return PageRouter.fadeScale(() => PinCodeScreen(
+              email: args as String,
+            ));
       case RoutePath.signup:
-        return PageRouter.fadeScale(() => SignupScreen());
+        return PageRouter.fadeScale(
+            () => ChangeNotifierProvider(create: (_) => RegisterViewModel(), child: SignupScreen()));
       case RoutePath.welcome:
-        return PageRouter.fadeScale(() => WelcomeScreen());
+        return PageRouter.fadeScale(() => WelcomeScreen());      case RoutePath.password:
+        return PageRouter.fadeScale(() => Password());
 
       case RoutePath.home:
-        return PageRouter.fadeScale(() => Home());
+        return PageRouter.fadeScale(() => Home());  case RoutePath.aboutPage:
+        return PageRouter.fadeScale(() => AboutPage()); case RoutePath.privacy:
+        return PageRouter.fadeScale(() => Privacy());
       case RoutePath.detail:
         return PageRouter.fadeScale(() => MyListDetail(
-              title: args as String,
+              product: args as Product,
             ));
       case RoutePath.webView:
         return PageRouter.fadeScale(() => CustomInAppWebView(

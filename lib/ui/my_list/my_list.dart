@@ -1,13 +1,28 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:savyor/application/core/extensions/extensions.dart';
+import 'package:savyor/application/network/external_values/iExternalValue.dart';
 import 'package:savyor/constant/Images/svgs.dart';
 import 'package:savyor/constant/constants.dart';
 import 'package:savyor/constant/style.dart';
+import 'package:savyor/data/models/active_product.dart';
+import 'package:savyor/di/di.dart';
+import 'package:savyor/ui/account/user_view_model.dart';
 import 'package:savyor/ui/base/base_widget.dart';
 import 'package:savyor/ui/my_list/component/mylist_item.dart';
 import 'package:savyor/ui/my_list/component/search_delegate.dart';
+import 'package:savyor/ui/my_list/my_list_view_model.dart';
 import 'package:savyor/ui/widget/section_horizontal_widget.dart';
+
+import '../../application/core/failure/failure.dart';
+import '../../application/core/result.dart';
+import '../../application/network/error_handler/error_handler.dart';
+import '../../common/logger/log.dart';
+import '../widget/flutter_toast.dart';
+import '../widget/loading_overlay.dart';
 
 class MyList extends BaseStateFullWidget {
   MyList({Key? key}) : super(key: key);
@@ -16,80 +31,100 @@ class MyList extends BaseStateFullWidget {
   MyListState createState() => MyListState();
 }
 
-class MyListState extends State<MyList> {
-  bool isDec = true;
-  final _list = List.generate(10, (index) => 'Retailer $index').toList();
+class MyListState extends State<MyList> implements Result<ActiveProduct> {
+  // final _list = List.generate(10, (index) => 'Retailer $index').toList();
   bool readOnly = true;
-  List<String> list = [];
-  TextEditingController textEditingController = TextEditingController();
+  // List<Product> list = [];
 
+  TextEditingController textEditingController = TextEditingController();
+  late final Timer timer;
   @override
   void initState() {
-   list = _list;
+    timer = Timer.periodic(Duration(seconds: 30),
+            (Timer t) async {
+          d(t.tick);
+          await context.read<MyListViewModel>().getActiveProducts(result: this);});
+    Future.microtask(() async {
+      await context.read<MyListViewModel>().getActiveProducts(result: this);
+    });
+
     super.initState();
+
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<MyListViewModel>();
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Style.scaffoldBackground,
         elevation: 1,
         title: CupertinoTextField(
-          onTap: readOnly ? () async {
-           List<String> result = await showSearch(context: context, delegate: CustomSearchDelegate(list: list));
-           setState(() {
-             list = result;
-             if(list.isNotEmpty){
-               readOnly = false;
-               textEditingController.text = list[0];
-               FocusManager.instance.primaryFocus?.unfocus();
-             }
-           });
-          }:null,
+          onTap: readOnly
+              ? () async {
+                  List<Product> result = await showSearch(
+                      context: context, delegate: ProductSearchDelegate(list: viewModel.currentProducts));
+
+                  viewModel.currentProducts = result;
+                  if (viewModel.currentProducts.isNotEmpty) {
+                    readOnly = false;
+                    textEditingController.text = viewModel.currentProducts[0].productName ?? '';
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  }
+                }
+              : null,
           readOnly: readOnly,
           placeholder: 'I\'m looking for...',
           padding: const EdgeInsets.all(10),
           textInputAction: TextInputAction.search,
-          placeholderStyle: context.textTheme.subtitle2?.copyWith(fontFamily: 'DM Sans', fontSize: 15, color: Style.unSelectedColor),
+          placeholderStyle:
+              context.textTheme.subtitle2?.copyWith(fontFamily: 'DM Sans', fontSize: 15, color: Style.unSelectedColor),
           prefix: Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Assets.search,
           ),
-          onChanged: (input){
-            if(input.isEmpty){
-            setState(() {
-              readOnly = true;
-              textEditingController.clear();
-              FocusManager.instance.primaryFocus?.unfocus();
-            });
+          onChanged: (input) {
+            if (input.isEmpty) {
+              setState(() {
+                readOnly = true;
+                textEditingController.clear();
+                FocusManager.instance.primaryFocus?.unfocus();
+              });
             }
           },
           onEditingComplete: () async {
-            if(textEditingController.text.isNotEmpty) {
-              List<String> result = await showSearch(query: textEditingController.text,context: context, delegate: CustomSearchDelegate(list: list));
-              setState(() {
-                list = result;
-                if (list.isNotEmpty) {
-                  readOnly = false;
-                  textEditingController.text = list[0];
-                  FocusManager.instance.primaryFocus?.unfocus();
-                }
-              });
+            if (textEditingController.text.isNotEmpty) {
+              List<Product> result = await showSearch(
+                  query: textEditingController.text,
+                  context: context,
+                  delegate: ProductSearchDelegate(list: viewModel.currentProducts));
+              viewModel.currentProducts = result;
+              if (viewModel.currentProducts.isNotEmpty) {
+                readOnly = false;
+                textEditingController.text = viewModel.currentProducts[0].productName ?? '';
+                FocusManager.instance.primaryFocus?.unfocus();
+              }
             }
           },
           controller: textEditingController,
           //prefixInsets: const EdgeInsets.only(left: 8.0),
-          suffix:  Padding(
+          suffix: Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: const Icon(
               CupertinoIcons.xmark_circle_fill,
               color: Style.accentColor,
-            ).onTap((){
+            ).onTap(() {
               setState(() {
                 textEditingController.clear();
                 readOnly = true;
-                list = _list;
+                viewModel.currentProducts = viewModel.products;
               });
             }),
           ),
@@ -105,7 +140,8 @@ class MyListState extends State<MyList> {
               children: [
                 Text(
                   'Sort by:',
-                  style: context.textTheme.subtitle2?.copyWith(fontFamily: 'DM Sans', color: Style.unSelectedColor, fontSize: 15),
+                  style: context.textTheme.subtitle2
+                      ?.copyWith(fontFamily: 'DM Sans', color: Style.unSelectedColor, fontSize: 15),
                 ),
                 widget.dimens.k12.horizontalBoxPadding(),
                 TabBar(
@@ -116,6 +152,25 @@ class MyListState extends State<MyList> {
                       ),
                       insets: EdgeInsets.only(bottom: 10, left: 0, right: 12)),
                   isScrollable: true,
+                  onTap: (page) {
+                    switch (page) {
+                      case 0:
+                        {
+                          viewModel.selectedFilter = Filter.retailer;
+                        }
+                        break;
+                      case 1:
+                        {
+                          viewModel.selectedFilter = Filter.price;
+                        }
+                        break;
+                      case 2:
+                        {
+                          viewModel.selectedFilter = Filter.period;
+                        }
+                        break;
+                    }
+                  },
                   labelPadding: const EdgeInsets.only(right: 12, top: 4),
                   unselectedLabelColor: Style.unSelectedColor,
                   labelColor: Style.primaryColor,
@@ -127,15 +182,11 @@ class MyListState extends State<MyList> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: SectionHorizontalWidget(
-                    firstWidget: Assets.arrowDown(isDec ? Style.primaryColor : null).onTap(() {
-                      setState(() {
-                        isDec = !isDec;
-                      });
+                    firstWidget: Assets.arrowDown(viewModel.isDec ? Style.primaryColor : null).onTap(() {
+                      viewModel.isDec = !viewModel.isDec;
                     }),
-                    secondWidget: Assets.arrowUp(isDec ? null : Style.primaryColor).onTap(() {
-                      setState(() {
-                        isDec = !isDec;
-                      });
+                    secondWidget: Assets.arrowUp(viewModel.isDec ? null : Style.primaryColor).onTap(() {
+                      viewModel.isDec = !viewModel.isDec;
                     }),
                   ),
                 )
@@ -144,14 +195,37 @@ class MyListState extends State<MyList> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-        child: ListView.builder(
-            itemCount: list.length,
-            itemBuilder: (_, index) {
-              return MyListItem(title: list[index],);
-            }),
+      body: LoadingOverLay(
+        loadingState: viewModel.state,
+        child: viewModel.currentProducts.isEmpty
+            ? const Center(child: Text("No active products"))
+            : Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    await context.read<MyListViewModel>().getActiveProducts(result: this);
+                  },
+                  child: ListView.builder(
+                      itemCount: viewModel.currentProducts.length,
+                      itemBuilder: (_, index) {
+                        final product = viewModel.currentProducts[index];
+                        product.viewModel = viewModel;
+
+                        return MyListItem(product: product);
+                      }),
+                ),
+              ),
       ),
     );
+  }
+
+  @override
+  onError(Failure error) {
+    SectionToast.show(ErrorMessage.fromError(error).message);
+  }
+
+  @override
+  onSuccess(ActiveProduct result) {
+    return;
   }
 }

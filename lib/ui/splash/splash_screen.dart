@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:savyor/application/main_config/routes/route_path.dart';
 import 'package:savyor/constant/Images/svgs.dart';
+import 'package:savyor/data/local_data_source/preference/i_pref_helper.dart';
 import 'package:savyor/ui/base/base_widget.dart';
+import 'package:savyor/ui/home/home_view_model.dart';
 import 'package:savyor/ui/widget/ui_background.dart';
 
+import '../../common/logger/log.dart';
+import '../../data/models/user.dart';
+import '../../di/di.dart';
+loadAppData(BuildContext context) async {
+  await Future.wait([context.read<HomeViewModel>().getSupportedStores()]);
+}
 class SplashScreen extends BaseStateFullWidget {
   SplashScreen({Key? key}) : super(key: key);
 
@@ -11,15 +20,27 @@ class SplashScreen extends BaseStateFullWidget {
   SplashScreenState createState() => SplashScreenState();
 }
 
-
 class SplashScreenState extends State<SplashScreen> {
+  validateSession() async {
+    final prefHelper = inject<IPrefHelper>();
+    final token = prefHelper.retrieveToken();
+    final user = prefHelper.retrieveUser();
+    d(user.runtimeType);
+    if (token != null && user.runtimeType == User) {
+      await loadAppData(context);
+      widget.navigator.pushNamedAndRemoveUntil(RoutePath.home);
+    } else {
+      {
+        widget.navigator.pushNamedAndRemoveUntil(RoutePath.login);
+      }
+    }
+  }
 
   @override
   void initState() {
+    Future.microtask(() => validateSession());
+
     super.initState();
-    Future.delayed(const Duration(seconds: 5), (){
-      widget.navigator.pushNamedAndRemoveUntil(RoutePath.login);
-    });
   }
 
   @override

@@ -24,11 +24,18 @@ class Assets {
         color: color,
       );
   static final union = SvgPicture.asset('assets/union.svg');
+  static final savyorLogo = SvgPicture.asset('assets/icons/savyorLogo.svg');
+
+
+
   static final unionBottom = SvgPicture.asset('assets/unionBottom.svg');
   static final union2 = Image.asset('assets/union2.png');
   static final union3 = Image.asset('assets/union3.png');
   static final unionBottom2 = Image.asset('assets/unionBottom2.png');
   static final unionBottom3 = Image.asset('assets/unionBottom3.png');
+
+  static final aboutPeople = Image.asset('assets/peoples.png');
+  static final aboutPhone = Image.asset('assets/phone.png');
   static Widget arrowUp(Color? color) => Image.asset(
         'assets/arrowUp.png',
         color: color,

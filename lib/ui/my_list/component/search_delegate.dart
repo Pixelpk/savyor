@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:savyor/constant/Images/svgs.dart';
 import 'package:savyor/constant/style.dart';
+import 'package:savyor/data/models/active_product.dart';
 
-class CustomSearchDelegate extends SearchDelegate {
-  CustomSearchDelegate({required this.list})
+class ProductSearchDelegate extends SearchDelegate {
+  ProductSearchDelegate({required this.list})
       : super(
             searchFieldDecorationTheme: InputDecorationTheme(
 
@@ -18,8 +19,17 @@ class CustomSearchDelegate extends SearchDelegate {
                 contentPadding: const EdgeInsets.all(10),
                 isDense: true));
 
-  final List<String?> list;
+  final List<Product?> list;
 
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return Theme.of(context).copyWith(
+      inputDecorationTheme: searchFieldDecorationTheme,
+      textTheme: Theme.of(context).textTheme.copyWith(
+        headline6: TextStyle(color: Colors.black),
+      ),
+    );
+  }
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -40,14 +50,14 @@ class CustomSearchDelegate extends SearchDelegate {
         onPressed: () {
           close(context, List<String>.empty());
         },
-        icon: const Icon(Icons.arrow_back));
+        icon: const Icon(Icons.arrow_back,color: Colors.white,));
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var item in list) {
-      if (item!.toLowerCase().contains(query.toLowerCase())) {
+    List<Product> matchQuery = [];
+    for (Product? item in list) {
+      if (item!.productName!.toLowerCase().contains(query.toLowerCase().trim())) {
         matchQuery.add(item);
       }
     }
@@ -60,7 +70,7 @@ class CustomSearchDelegate extends SearchDelegate {
             child: Assets.search,
           ),
           dense: true,
-          title: Text(result, style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.textColor),),
+          title: Text(result.productName ?? '', style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.textColor),),
           trailing: Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Assets.arrowLeft,
@@ -77,10 +87,10 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
+    List<Product> matchQuery = [];
 
-    for (var item in list) {
-      if (item!.toLowerCase().contains(query.toLowerCase())) {
+    for (Product? item in list) {
+      if (query.trim().isNotEmpty && item!.productName!.toLowerCase().contains(query.toLowerCase().trim())) {
         matchQuery.add(item);
       }
     }
@@ -96,7 +106,7 @@ class CustomSearchDelegate extends SearchDelegate {
           dense: true,
           title: RichText(
             text: TextSpan(
-              children: highlightOccurrences(result, query),
+              children: highlightOccurrences(result.productName ?? '', query),
               style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.unSelectedColor),
             ),
           ),

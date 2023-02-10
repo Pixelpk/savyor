@@ -6,9 +6,10 @@ class ReceiveTimeoutException implements Exception {}
 class SendTimeoutException implements Exception {}
 
 class ResponseException implements Exception {
-  ResponseException({required this.msg});
+  ResponseException({required this.msg,this.code});
 
   String msg;
+  dynamic code ;
 }
 
 class OtherException implements Exception {}

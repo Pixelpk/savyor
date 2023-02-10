@@ -5,13 +5,15 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:savyor/application/network/client/iApService.dart';
 import 'package:savyor/application/network/external_values/iExternalValue.dart';
 import 'package:savyor/common/logger/log.dart';
+import 'package:savyor/data/local_data_source/preference/i_pref_helper.dart';
 import 'package:savyor/data/repo/jwt_access_repo.dart';
 
+import '../../../di/di.dart';
+
 class ApiService extends Interceptor implements IApiService {
-  ApiService.create({required IExternalValues externalValues, required this.jwtAccessRepo}) {
+  ApiService.create({required IExternalValues externalValues}) {
     serviceGenerator(externalValues);
   }
-  JwtAccessRepo jwtAccessRepo;
    bool _isTokenRequired = false;
 
 
@@ -23,7 +25,6 @@ class ApiService extends Interceptor implements IApiService {
     return BaseOptions(
         baseUrl: externalValues.getBaseUrl(),
         receiveDataWhenStatusError: true,
-        headers: {HttpHeaders.contentTypeHeader: "application/json"},
         connectTimeout: 60 * 1000,
         receiveTimeout: 60 * 1000);
   }
@@ -44,15 +45,21 @@ class ApiService extends Interceptor implements IApiService {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    d("onRequest Headers: ${options.headers}");
+     d("onRequest Body: ${options.data}");
     if (_isTokenRequired) {
-      String? token = (await jwtAccessRepo.loadAccessToken);
-      options.headers.addAll({HttpHeaders.authorizationHeader: 'Bearer ${token!}'});
+     final token =  inject<IPrefHelper>().retrieveToken();
+     if(token!=null) {
+        options.headers.addAll({"x-access-token": token!});
+      }
     }
     return super.onRequest(options, handler);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
+    d("RESPONSE ${response.data}");
+    d("RESPONSE-StatusCode ${response.statusCode}");
     return handler.next(response);
   }
 

@@ -8,5 +8,8 @@ class RoutePath {
    static const home = '${initialRoute}home';
    static const detail = '${initialRoute}detail';
    static const webView = '${initialRoute}webView';
+   static const password = '${initialRoute}password';
+   static const aboutPage = '${initialRoute}AboutPage';
+   static const privacy = '${initialRoute}Privacy';
 
 }

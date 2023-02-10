@@ -7,7 +7,7 @@ import 'package:savyor/application/core/failure/failure.dart';
 
 Exception getException(DioError e) {
   if (e.type == DioErrorType.response) {
-    return ResponseException(msg: (e.response!.data['message'] ?? e.error));
+    return ResponseException(msg: (e.response!.data['msg'] ?? e.error));
   } else if (e.type == DioErrorType.connectTimeout) {
     return ConnectTimeoutException();
   } else if (e.type == DioErrorType.receiveTimeout) {
@@ -42,7 +42,7 @@ String _handleError(int? statusCode) {
 
 Failure getFailure(Exception e) {
   if (e.runtimeType == ResponseException) {
-    return ResponseFailure(msg: (e as ResponseException).msg);
+    return ResponseFailure(msg: (e as ResponseException).msg,code: e.code);
   } else if (e.runtimeType == ConnectTimeoutException) {
     return ConnectTimeoutFailure();
   } else if (e.runtimeType == ReceiveTimeoutException) {
@@ -67,6 +67,7 @@ class ErrorMessage implements Failure {
         break;
       case ResponseFailure:
         message = (failure as ResponseFailure).msg;
+        code = failure.code.toString() ;
         break;
       case SendTimeoutFailure:
         message = "Send timeout in connection with API server";
@@ -81,6 +82,7 @@ class ErrorMessage implements Failure {
     }
   }
   String? message;
+  String? code ;
   @override
   String toString() => message!;
 }
