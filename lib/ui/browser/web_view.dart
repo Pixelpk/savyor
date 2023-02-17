@@ -16,6 +16,7 @@ import 'package:savyor/ui/browser/model/data_parser.dart';
 import 'package:savyor/ui/home/home_view_model.dart';
 import 'package:savyor/ui/widget/big_btn.dart';
 import 'package:savyor/ui/widget/flutter_toast.dart';
+import 'package:savyor/ui/widget/rounded_text_field.dart';
 import 'package:savyor/ui/widget/section_horizontal_widget.dart';
 import 'package:savyor/ui/widget/section_vertical_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,6 +33,7 @@ import '../../domain/entities/track_product_entity/track_product_entity.dart';
 
 class CustomInAppWebView extends BaseStateFullWidget {
   CustomInAppWebView({super.key, required this.url});
+
   final String url;
 
   @override
@@ -40,6 +42,8 @@ class CustomInAppWebView extends BaseStateFullWidget {
 
 class CustomInAppWebViewState extends State<CustomInAppWebView> implements Result {
   final GlobalKey webViewKey = GlobalKey();
+
+  late TextEditingController trackPriceController;
 
   InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
@@ -269,10 +273,7 @@ class CustomInAppWebViewState extends State<CustomInAppWebView> implements Resul
             child: SectionVerticalWidget(
               crossAxisAlignment: CrossAxisAlignment.start,
               firstWidget: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24.0,
-                  vertical: 16.0,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                 child: SectionHorizontalWidget(
                   firstWidget: Assets.openBrowser,
                   secondWidget: Text(
@@ -336,7 +337,9 @@ class CustomInAppWebViewState extends State<CustomInAppWebView> implements Resul
   final oCcy = NumberFormat("#,##0.00", "en_US");
   double price = 0;
   int period = 1;
+
   void _handleFABPressed2(Result result, TrackProductEntity params) {
+    trackPriceController = TextEditingController(text: "\$${oCcy.format(price)}");
     showModalBottomSheet<int>(
       backgroundColor: Colors.transparent,
       context: context,
@@ -349,47 +352,45 @@ class CustomInAppWebViewState extends State<CustomInAppWebView> implements Resul
                 child: SectionVerticalWidget(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     firstWidget: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24.0,
-                        vertical: 16.0,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                       child: SectionVerticalWidget(
-                        firstWidget: Text(
-                          'Track price',
-                          style: context.textTheme.headline6
-                              ?.copyWith(fontWeight: FontWeight.normal, color: Style.textColor.withOpacity(0.5)),
-                        ),
+                        firstWidget: Text('Track price',
+                            style: context.textTheme.headline6
+                                ?.copyWith(fontWeight: FontWeight.normal, color: Style.textColor.withOpacity(0.5))),
                         secondWidget: SectionHorizontalWidget(
                           firstWidget: Assets.minus(height: 30, isZero: price <= 0).onTap(() {
                             state(() {
-                              if (price > 0) {
-                                price -= 1.0;
+                              if (double.parse(trackPriceController.text.replaceAll('\$', '')) > 0) {
+                                trackPriceController.text =
+                                    (double.parse(trackPriceController.text.replaceAll('\$', '')) - 1.0).toString();
+                                trackPriceController.text = "\$${trackPriceController.text}";
                               }
                             });
                           }),
                           secondWidget: Expanded(
-                            child: Container(
-                              constraints: const BoxConstraints(minWidth: 100),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Style.unSelectedColor,
-                                  ),
-                                  borderRadius: BorderRadius.circular(999)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Text(
-                                  '\$${oCcy.format(price)}',
-                                  style: context.textTheme.headline6
-                                      ?.copyWith(fontWeight: FontWeight.normal, color: Style.textColor),
-                                  textAlign: TextAlign.center,
-                                ),
+                              child: RoundedTextField(
+                                  keyboardType: TextInputType.number,
+                                  controller: trackPriceController,
+                                  hintText: 'Track Price')
+
+                              // Container(
+                              //     constraints: const BoxConstraints(minWidth: 100),
+                              //     decoration: BoxDecoration(
+                              //         border: Border.all(color: Style.unSelectedColor),
+                              //         borderRadius: BorderR[adius.circular(999)),
+                              //     child: Padding(
+                              //         padding: const EdgeInsets.all(8),
+                              //         child: Text('\$${oCcy.format(price)}',
+                              //             style: context.textTheme.headline6
+                              //                 ?.copyWith(fontWeight: FontWeight.normal, color: Style.textColor),
+                              //             textAlign: TextAlign.center))),
                               ),
-                            ),
-                          ),
                           thirdWidget: Assets.plus(height: 30).onTap(() {
-                            state(() {
-                              price += 1.0;
-                            });
+                            state(() => {
+                                  trackPriceController.text =
+                                      (double.parse(trackPriceController.text.replaceAll('\$', '')) + 1.0).toString(),
+                                  trackPriceController.text = "\$${trackPriceController.text}"
+                                });
                           }),
                         ),
                       ),

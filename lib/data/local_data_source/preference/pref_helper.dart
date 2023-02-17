@@ -47,9 +47,8 @@ class PrefHelper implements IPrefHelper {
   }
 
   @override
-   retrieveUser() {
+  retrieveUser() {
     if (_pref.containsKey("user_data")) {
-
       Map<String, dynamic> jsonData = json.decode(_pref.getString("user_data")!);
       d("RETERIVED USER ${jsonData}");
       return User.fromJson(jsonData);
@@ -65,11 +64,10 @@ class PrefHelper implements IPrefHelper {
 
   @override
   bool? getBool(String key) {
-    if(_pref.containsKey(key))
-      {
-        return _pref.getBool(key);
-      }
-    return null ;
+    if (_pref.containsKey(key)) {
+      return _pref.getBool(key);
+    }
+    return null;
   }
 
   @override

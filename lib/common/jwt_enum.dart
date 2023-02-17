@@ -1,1 +1,1 @@
-enum SecureStorageKeys {accessToken, refreshToken}
+enum SecureStorageKeys { accessToken, refreshToken }

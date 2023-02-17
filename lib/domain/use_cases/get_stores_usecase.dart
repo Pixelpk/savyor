@@ -9,6 +9,7 @@ import '../interfaces/i_register_repo_.dart';
 
 class GetStoreUseCase implements UseCase<SupportedStore, NoParams> {
   GetStoreUseCase(this.repository);
+
   final IAppRepo repository;
 
   @override

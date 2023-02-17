@@ -9,8 +9,8 @@ extension SizeExt on double {
 class Px {
   final double kDefaultDuration = .25;
   static const toolBar = 80.0;
-   final  defaultRadius = 20.0;
-   double get  statusBarSize => 30;
+  final defaultRadius = 20.0;
+  double get statusBarSize => 30;
   double get extendSizeBodyBehindAppBar => toolBar + statusBarSize;
   final kDefault = 0.0;
   final k2 = 2.0;
@@ -57,5 +57,4 @@ class Px {
   final k350 = 350.0;
   final k400 = 400.0;
   double get toolBarHeight => toolBar;
-
 }

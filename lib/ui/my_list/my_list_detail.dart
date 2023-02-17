@@ -17,7 +17,6 @@ import 'package:savyor/ui/widget/big_btn.dart';
 import '../../application/core/failure/failure.dart';
 import '../../application/core/result.dart';
 import '../../application/network/error_handler/error_handler.dart';
-import '../../common/logger/log.dart';
 import '../../data/models/active_product.dart';
 import '../../domain/entities/update_product_entity/track_product_entity.dart';
 import '../widget/flutter_toast.dart';
@@ -272,7 +271,7 @@ class _MyListDetailState extends State<MyListDetail> implements Result<ServerRes
   @override
   onSuccess(ServerResponse result) {
     if (mounted) {
-      SectionToast.show(result.msg ?? "Success");
+      // SectionToast.show(result.msg ?? "Success");
       Navigator.pop(context);
     }
     return;

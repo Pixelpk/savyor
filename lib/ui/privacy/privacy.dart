@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:savyor/ui/base/base_widget.dart';
 import 'package:savyor/ui/widget/section_vertical_widget.dart';
 
-import '../../constant/Images/svgs.dart';
 import '../../constant/style.dart';
 
 class Privacy extends BaseStateFullWidget {
@@ -18,17 +17,16 @@ class _AboutPageState extends State<Privacy> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0.8,
-        backgroundColor: Colors.white,
-        title: const Text(
-          "Privacy policy",
-          style: TextStyle(color: Style.textColor, fontFamily: "DM Sans", fontSize: 14),
-        ),
-        leading: IconButton(onPressed: () {
-          widget.navigator.pop();
-        }, icon: const Icon(Icons.arrow_back, color: Style.textColor)),
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(18))),
-      ),
+          elevation: 0.8,
+          backgroundColor: Colors.white,
+          title: const Text("Privacy policy",
+              style: TextStyle(color: Style.textColor, fontFamily: "DM Sans", fontSize: 14)),
+          leading: IconButton(
+              onPressed: () {
+                widget.navigator.pop();
+              },
+              icon: const Icon(Icons.arrow_back, color: Style.textColor)),
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(18)))),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
@@ -48,7 +46,8 @@ class _AboutPageState extends State<Privacy> {
                   secondWidget: const Text(
                     "Our Savyor browser extension (“the extension”; “the plug-in”) is the key interface for us to obtain necessary information to perform our service to you. The information we collect through the extension is outlined in the “Information We Collect” section with explanation of how we handle the information. By using our browser extension, you agree to this Privacy Policy.",
                     style: TextStyle(color: Style.textColor, fontFamily: "DM Sans", fontSize: 14, height: 1.4),
-                  )),     SizedBox(height: 22),
+                  )),
+              SizedBox(height: 22),
               SectionVerticalWidget(
                   firstWidget: const Text("Analytical Use",
                       style: TextStyle(
@@ -59,7 +58,8 @@ class _AboutPageState extends State<Privacy> {
                   secondWidget: const Text(
                     "At Savyor, we aim to use the most advanced technology and available data to offer insight for you to make the best shopping decision and achieve saving you deserve. Therefore, we preserve the right to perform analytical activities to the information we collect.",
                     style: TextStyle(color: Style.textColor, fontFamily: "DM Sans", fontSize: 14, height: 1.4),
-                  )),     SizedBox(height: 22),
+                  )),
+              SizedBox(height: 22),
               SectionVerticalWidget(
                   firstWidget: const Text("Your Right",
                       style: TextStyle(
@@ -70,7 +70,8 @@ class _AboutPageState extends State<Privacy> {
                   secondWidget: const Text(
                     "At any time, you have the right to access, port, or delete the information we collect from you. Should you feel the need to exercise your right, please send your inquiry to us at support@savyor.co, and we will ensure to work with you to satisfy the request.",
                     style: TextStyle(color: Style.textColor, fontFamily: "DM Sans", fontSize: 14, height: 1.4),
-                  )),     SizedBox(height: 22),
+                  )),
+              const SizedBox(height: 22),
               SectionVerticalWidget(
                   firstWidget: const Text("Affiliate Programm",
                       style: TextStyle(

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:savyor/application/core/extensions/extensions.dart';
-import 'package:savyor/application/main_config/routes/route_path.dart';
 import 'package:savyor/constant/Images/svgs.dart';
 import 'package:savyor/constant/constants.dart';
 import 'package:savyor/constant/style.dart';
@@ -30,7 +28,8 @@ class ForgotPasswordScreen extends BaseStateFullWidget {
 class ForgotPasswordScreenState extends State<ForgotPasswordScreen> implements Result<ServerResponse> {
   bool obscureText = true;
   TextEditingController controller = TextEditingController();
-  late GlobalKey<FormState> validKey =  GlobalKey<FormState>();
+  late GlobalKey<FormState> validKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -81,11 +80,10 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> implements R
                             textInputAction: TextInputAction.done,
                             prefixIconConstraints: const BoxConstraints(maxWidth: 30),
                             controller: controller,
-                            validator: (e){
-                              if(e!=null && e.trim().isNotEmpty && widget.utils.isEmail(e))
-                                {
-                                  return null ;
-                                }
+                            validator: (e) {
+                              if (e != null && e.trim().isNotEmpty && widget.utils.isEmail(e)) {
+                                return null;
+                              }
                               return "Please add valid email";
                             },
                           ),
@@ -94,7 +92,7 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> implements R
                       widget.dimens.k80.verticalBoxPadding(),
                       BigBtn(
                         onTap: () {
-                          if(validKey.currentState!.validate()) {
+                          if (validKey.currentState!.validate()) {
                             viewModel.forgotPassword(controller.text.trim(), this);
                           }
                         },

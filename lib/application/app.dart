@@ -28,8 +28,7 @@ class SavyorAppState extends State<SavyorApp> with BaseMixin {
     final script = ScriptGenerator(
         diyIdScript: "return document.querySelector(\"input#ASIN, input[name='asin']\").value;",
         name: "Laoshe",
-        websiteUrl: "www.amazon.com"
-    );
+        websiteUrl: "www.amazon.com");
     d(script.generateCode());
   }
 
@@ -37,8 +36,8 @@ class SavyorAppState extends State<SavyorApp> with BaseMixin {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=>HomeViewModel()),
-        ChangeNotifierProvider(create: (_)=>AccountViewModel())
+        ChangeNotifierProvider(create: (_) => HomeViewModel()),
+        ChangeNotifierProvider(create: (_) => AccountViewModel())
       ],
       child: MaterialApp(
         title: 'Savyor',
@@ -61,12 +60,17 @@ class SavyorAppState extends State<SavyorApp> with BaseMixin {
             appBarTheme: AppBarTheme(
               centerTitle: true,
               iconTheme: const IconThemeData(color: Style.textColor),
-              toolbarTextStyle: context.textTheme.bodyText2?.copyWith(fontWeight: FontWeight.bold, color: Style.textColor,fontSize: 18),
-              titleTextStyle: context.textTheme.bodyText2?.copyWith(fontWeight: FontWeight.bold, color: Style.textColor,fontSize: 18),
+              toolbarTextStyle: context.textTheme.bodyText2
+                  ?.copyWith(fontWeight: FontWeight.bold, color: Style.textColor, fontSize: 18),
+              titleTextStyle: context.textTheme.bodyText2
+                  ?.copyWith(fontWeight: FontWeight.bold, color: Style.textColor, fontSize: 18),
             ),
             scaffoldBackgroundColor: Colors.white,
             colorScheme: const ColorScheme.light(
-                background: Style.scaffoldBackground, secondary: Style.accentColor, primary: Style.primaryColor, brightness: Brightness.light)),
+                background: Style.scaffoldBackground,
+                secondary: Style.accentColor,
+                primary: Style.primaryColor,
+                brightness: Brightness.light)),
         // darkTheme: ThemeData(
         //     highlightColor: Colors.transparent,
         //     splashColor: Colors.transparent,

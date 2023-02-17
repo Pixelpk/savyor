@@ -20,8 +20,8 @@ class SupportedStore {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['msg'] = msg;
     data['error'] = error;
-    if (this.stores != null) {
-      data['data'] = this.stores!.map((v) => v.toJson()).toList();
+    if (stores != null) {
+      data['data'] = stores!.map((v) => v.toJson()).toList();
     }
     return data;
   }

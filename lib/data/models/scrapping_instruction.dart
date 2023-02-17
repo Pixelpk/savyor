@@ -1,5 +1,6 @@
 class ScrapInstructionResponse {
   List<ScrappingInstruction> instruction = [];
+
   ScrapInstructionResponse.fromJson(Iterable data) {
     instruction = data.map((e) => ScrappingInstruction.fromJson(e)).toList();
   }

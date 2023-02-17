@@ -12,7 +12,14 @@ class SectionVerticalWidget extends BaseStateLessWidget {
   final Widget? thirdWidget;
   final double? gap;
   final CrossAxisAlignment? crossAxisAlignment;
-  SectionVerticalWidget({Key? key, this.gap, required this.firstWidget, required this.secondWidget, this.thirdWidget, this.crossAxisAlignment})
+
+  SectionVerticalWidget(
+      {Key? key,
+      this.gap,
+      required this.firstWidget,
+      required this.secondWidget,
+      this.thirdWidget,
+      this.crossAxisAlignment})
       : super(key: key);
 
   @override
@@ -24,9 +31,8 @@ class SectionVerticalWidget extends BaseStateLessWidget {
         : [firstWidget, _gap.verticalBoxPadding(), secondWidget];
 
     return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
-      children: child,
-    );
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
+        children: child);
   }
 }

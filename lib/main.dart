@@ -6,7 +6,6 @@ import 'package:savyor/application/main_config/main_config.dart' as config;
 import 'package:savyor/application/app.dart';
 import 'package:savyor/application/main_config/routes/route_import.dart';
 import 'package:savyor/common/logger/log.dart';
-import 'package:reflectable/reflectable.dart';
 import 'main.reflectable.dart';
 
 typedef SetRegisteredRoutes = Route<dynamic> Function(RouteSettings settings);

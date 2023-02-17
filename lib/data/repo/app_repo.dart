@@ -14,10 +14,8 @@ import '../remote_data_source/register_api/i_register_api.dart';
 
 class AppRepo implements IAppRepo {
   AppRepo({required this.api});
+
   IAppApi api;
-
-
-
 
   @override
   Future<Either<Failure, SupportedStore>> getStores() async {
@@ -31,7 +29,7 @@ class AppRepo implements IAppRepo {
   }
 
   @override
-  Future<Either<Failure, ScrapInstructionResponse>> getScrappingInstruction(String store) async  {
+  Future<Either<Failure, ScrapInstructionResponse>> getScrappingInstruction(String store) async {
     try {
       final result = await api.getScrappingInstruction(store);
       return Right(result);
@@ -40,5 +38,4 @@ class AppRepo implements IAppRepo {
       return Left(getFailure(error as Exception));
     }
   }
-
 }

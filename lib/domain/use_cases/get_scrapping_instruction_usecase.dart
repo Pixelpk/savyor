@@ -10,6 +10,7 @@ import '../interfaces/i_register_repo_.dart';
 
 class GetScrapInstructionUseCase implements UseCase<ScrapInstructionResponse, String> {
   GetScrapInstructionUseCase(this.repository);
+
   final IAppRepo repository;
 
   @override

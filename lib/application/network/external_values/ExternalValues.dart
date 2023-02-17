@@ -1,4 +1,3 @@
-
 import 'package:savyor/application/network/external_values/iExternalValue.dart';
 
 class ExternalValues implements IExternalValues {
@@ -6,5 +5,4 @@ class ExternalValues implements IExternalValues {
   String getBaseUrl() {
     return 'https://savyor.co';
   }
-
 }

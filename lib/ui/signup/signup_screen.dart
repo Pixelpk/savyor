@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -66,13 +65,12 @@ class LoginScreenState extends State<SignupScreen> with RegisterMixin implements
                           child: Stack(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: viewModel.signUpEntity.image != null
-                                    ? CircleAvatar(
-                                        radius: 45,
-                                        backgroundImage: FileImage(File(viewModel.signUpEntity.image!.path)))
-                                    : Assets.defaultProfile,
-                              ),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: viewModel.signUpEntity.image != null
+                                      ? CircleAvatar(
+                                          radius: 45,
+                                          backgroundImage: FileImage(File(viewModel.signUpEntity.image!.path)))
+                                      : Assets.defaultProfile),
                               Assets.progress,
                               Positioned(
                                   bottom: 10,
@@ -150,55 +148,45 @@ class LoginScreenState extends State<SignupScreen> with RegisterMixin implements
                           ),
                           secondWidget: Text.rich(TextSpan(
                               text: 'By signing up you agree to our ',
-                              style: context.textTheme.subtitle2?.copyWith(
-                                color: Style.textColor,
-                                fontWeight: FontWeight.normal,
-                              ),
+                              style: context.textTheme.subtitle2
+                                  ?.copyWith(color: Style.textColor, fontWeight: FontWeight.normal),
                               children: [
                                 TextSpan(
-                                  text: 'Privacy policy',
-                                  style: context.textTheme.subtitle2?.copyWith(
-                                      color: Style.primaryColor,
-                                      fontWeight: FontWeight.w500,
-                                      decoration: TextDecoration.underline),
-                                )
+                                    text: 'Privacy policy',
+                                    style: context.textTheme.subtitle2?.copyWith(
+                                        color: Style.primaryColor,
+                                        fontWeight: FontWeight.w500,
+                                        decoration: TextDecoration.underline))
                               ])),
                         ),
                         widget.dimens.k20.verticalBoxPadding(),
                         SectionVerticalWidget(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          gap: 0,
-                          firstWidget: BigBtn(
-                            onTap: () {
-                              if (validated) {
-                                viewModel.signUpEntity.userName = name.text.trim();
-                                viewModel.signUpEntity.password = password.text.trim();
-                                viewModel.register(this);
-                              }
-                            },
-                            color: Style.primaryColor,
-                            child: Text(
-                              'Sign up',
-                              style: context.textTheme.subtitle1?.copyWith(
-                                  fontFamily: 'Raleway',
-                                  color: Style.scaffoldBackground,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: widget.dimens.k16),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          secondWidget: TextButton(
-                            onPressed: () {
-                              widget.navigator.pushNamedAndRemoveUntil(RoutePath.login);
-                            },
-                            child: Text(
-                              'Log in',
-                              style: context.textTheme.subtitle1
-                                  ?.copyWith(color: Style.primaryColor, fontWeight: FontWeight.w700),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            gap: 0,
+                            firstWidget: BigBtn(
+                                onTap: () {
+                                  if (validated) {
+                                    viewModel.signUpEntity.userName = name.text.trim();
+                                    viewModel.signUpEntity.password = password.text.trim();
+                                    viewModel.register(this);
+                                  }
+                                },
+                                color: Style.primaryColor,
+                                child: Text('Sign up',
+                                    style: context.textTheme.subtitle1?.copyWith(
+                                        fontFamily: 'Raleway',
+                                        color: Style.scaffoldBackground,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: widget.dimens.k16),
+                                    textAlign: TextAlign.center)),
+                            secondWidget: TextButton(
+                                onPressed: () {
+                                  widget.navigator.pushNamedAndRemoveUntil(RoutePath.login);
+                                },
+                                child: Text('Log in',
+                                    style: context.textTheme.subtitle1
+                                        ?.copyWith(color: Style.primaryColor, fontWeight: FontWeight.w700),
+                                    textAlign: TextAlign.center))),
                         /*   SizedBox(
                         height: 50,
                         child: Stack(
@@ -218,7 +206,7 @@ class LoginScreenState extends State<SignupScreen> with RegisterMixin implements
                                   stops: [0.0, 0.435, 1.0],
                                 ),
                                 borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(12.0),
+                                  bottomRight: Radius.circular(12.0),zx
                                   bottomLeft: Radius.circular(12.0),
                                 ),
                               ),
@@ -274,7 +262,6 @@ class LoginScreenState extends State<SignupScreen> with RegisterMixin implements
   onSuccess(User result) async {
     await loadAppData(context);
     context.read<AccountViewModel>().loadUser();
-
-    widget.navigator.pushNamedAndRemoveUntil(RoutePath.home);
+    widget.navigator.pushNamedAndRemoveUntil(RoutePath.welcome);
   }
 }

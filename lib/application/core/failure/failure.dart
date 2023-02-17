@@ -1,4 +1,3 @@
-
 abstract class Failure {}
 
 class ConnectTimeoutFailure implements Failure {}

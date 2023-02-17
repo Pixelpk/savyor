@@ -14,8 +14,8 @@ class ApiService extends Interceptor implements IApiService {
   ApiService.create({required IExternalValues externalValues}) {
     serviceGenerator(externalValues);
   }
-   bool _isTokenRequired = false;
 
+  bool _isTokenRequired = false;
 
   @override
   Dio get() => _dio;
@@ -46,10 +46,10 @@ class ApiService extends Interceptor implements IApiService {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     d("onRequest Headers: ${options.headers}");
-     d("onRequest Body: ${options.data}");
+    d("onRequest Body: ${options.data}");
     if (_isTokenRequired) {
-     final token =  inject<IPrefHelper>().retrieveToken();
-     if(token!=null) {
+      final token = inject<IPrefHelper>().retrieveToken();
+      if (token != null) {
         options.headers.addAll({"x-access-token": token!});
       }
     }
@@ -72,20 +72,14 @@ class ApiService extends Interceptor implements IApiService {
 
   @override
   void setIsTokenRequired(bool value) {
-   _isTokenRequired = value;
+    _isTokenRequired = value;
   }
 
   @override
   void enableLogger(bool value) {
-    if(value) {
+    if (value) {
       _dio.interceptors.add(PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-        compact: false,
-      ));
+          requestHeader: true, requestBody: true, responseBody: true, responseHeader: false, compact: false));
     }
   }
-
 }

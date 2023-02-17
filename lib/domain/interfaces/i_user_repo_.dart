@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -10,6 +9,8 @@ import '../../data/models/user.dart';
 
 abstract class IUserRepo {
   Future<Either<Failure, GetUserProfile>> getUserProfile();
+
   Future<Either<Failure, ServerResponse>> updateProfileImage(FormData formData);
-  Future<Either<Failure, ServerResponse>> changePassword(Map<String,dynamic> data);
+
+  Future<Either<Failure, ServerResponse>> changePassword(Map<String, dynamic> data);
 }

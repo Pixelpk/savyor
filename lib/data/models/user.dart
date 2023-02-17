@@ -6,20 +6,19 @@ class User {
   String? imageUrl;
   bool? auth;
 
-  User({this.msg, this.error, this.username, this.token, this.auth,this.imageUrl});
+  User({this.msg, this.error, this.username, this.token, this.auth, this.imageUrl});
 
   User.fromJson(Map<String, dynamic> json) {
     msg = json['msg'];
     error = json['error'];
-    if(json.containsKey("username")) {
+    if (json.containsKey("username")) {
       username = json['username'];
     }
     token = json['token'];
     auth = json['auth'];
-    if(json.containsKey("image"))
-      {
-        imageUrl = json['image'] ;
-      }
+    if (json.containsKey("image")) {
+      imageUrl = json['image'];
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -29,7 +28,7 @@ class User {
     data['username'] = username;
     data['token'] = token;
     data['auth'] = auth;
-    data['image']=imageUrl ;
+    data['image'] = imageUrl;
     return data;
   }
 }

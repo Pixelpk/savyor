@@ -34,46 +34,40 @@ class SectionTextField extends BaseStateLessWidget {
       this.textInputAction,
       this.focusNode,
       this.prefixIcon,
-        this.prefixIconConstraints,
-        this.suffixIconConstraints,
+      this.prefixIconConstraints,
+      this.suffixIconConstraints,
       Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      obscureText: obscureText ?? false,
-      onChanged: onChanged,
-      validator: validator,
-      readOnly: readOnly,
-      onTap: onTap,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      focusNode: focusNode,
-      autocorrect: false,
-      style: context.textTheme.subtitle1?.copyWith(color: Style.textColor, fontWeight: FontWeight.normal, fontFamily: 'DM Sans'),
-      decoration: InputDecoration(
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: prefixIcon,
-          ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-          prefixIconConstraints: prefixIconConstraints,
-          suffixIconConstraints: suffixIconConstraints,
-          suffixIcon: suffixIcon,
-          hintText: hintText,
-          hintStyle: context.textTheme.subtitle2?.copyWith(color: Style.textHintColor, fontWeight: FontWeight.normal, fontFamily: 'DM Sans'),
-          errorBorder: kUnderLineInputBorder(),
-          enabledBorder: kUnderLineInputBorder(),
-          focusedBorder: kUnderLineInputBorder(),
-          border: kUnderLineInputBorder()),
-    );
+        controller: controller,
+        obscureText: obscureText ?? false,
+        onChanged: onChanged,
+        validator: validator,
+        readOnly: readOnly,
+        onTap: onTap,
+        keyboardType: keyboardType,
+        textInputAction: textInputAction,
+        focusNode: focusNode,
+        autocorrect: false,
+        style: context.textTheme.subtitle1
+            ?.copyWith(color: Style.textColor, fontWeight: FontWeight.normal, fontFamily: 'DM Sans'),
+        decoration: InputDecoration(
+            prefixIcon: Padding(padding: const EdgeInsets.only(right: 10), child: prefixIcon),
+            contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+            prefixIconConstraints: prefixIconConstraints,
+            suffixIconConstraints: suffixIconConstraints,
+            suffixIcon: suffixIcon,
+            hintText: hintText,
+            hintStyle: context.textTheme.subtitle2
+                ?.copyWith(color: Style.textHintColor, fontWeight: FontWeight.normal, fontFamily: 'DM Sans'),
+            errorBorder: kUnderLineInputBorder(),
+            enabledBorder: kUnderLineInputBorder(),
+            focusedBorder: kUnderLineInputBorder(),
+            border: kUnderLineInputBorder()));
   }
 
-  static kUnderLineInputBorder() => const UnderlineInputBorder(
-        borderSide: BorderSide(
-          color: Color(0xff000000),
-        ),
-      );
+  static kUnderLineInputBorder() => const UnderlineInputBorder(borderSide: BorderSide(color: Color(0xff000000)));
 }

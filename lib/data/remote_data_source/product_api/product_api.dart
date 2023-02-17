@@ -15,12 +15,28 @@ class ProductApi implements IProductApi {
     api.setIsTokenRequired(true);
     dio = api.get();
   }
+
   late Dio dio;
 
   @override
   Future<ActiveProduct> getActiveProducts() async {
     try {
       final responseData = await dio.get("/api/product/active");
+      return ActiveProduct.fromJson(responseData.data);
+    } on DioError catch (e) {
+      d(e);
+      final exception = getException(e);
+      throw exception;
+    } catch (e, t) {
+      d(e);
+      throw ResponseException(msg: e.toString());
+    }
+  }
+
+  @override
+  Future<ActiveProduct> getInActiveProducts() async {
+    try {
+      final responseData = await dio.get("/api/product/inactive");
       return ActiveProduct.fromJson(responseData.data);
     } on DioError catch (e) {
       d(e);
@@ -53,7 +69,7 @@ class ProductApi implements IProductApi {
     } catch (e, t) {
       d(e);
       if (e.runtimeType == ServerResponse) {
-        throw ResponseException(msg: (e as ServerResponse).msg!,code:(e).code ?? 0 );
+        throw ResponseException(msg: (e as ServerResponse).msg!, code: (e).code ?? 0);
       }
       throw ResponseException(msg: e.toString());
     }
@@ -62,7 +78,7 @@ class ProductApi implements IProductApi {
   @override
   Future<ServerResponse> updateProduct(Map<String, dynamic> data) async {
     try {
-      final responseData = await dio.put("/api/user/userinput",data: data);
+      final responseData = await dio.put("/api/user/userinput", data: data);
       final res = ServerResponse.fromJson(responseData.data);
       if (res.error != null && !res.error!) {
         return res;

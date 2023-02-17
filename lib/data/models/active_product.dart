@@ -65,6 +65,7 @@ class Product {
   bool? productActive;
   MyListViewModel? viewModel;
   late final IExternalValues externalValues = inject();
+
   Product(
       {this.iD,
       this.productID,
@@ -143,7 +144,7 @@ class Product {
     shipAddState = json['ShipAdd_State'];
   }
 
-  String getRemainingDays() {
+  String getRemainingDaysOrHours() {
     final pstCreation = timeStampUpdated ?? timeStamp;
     int trackPeriod = period ?? 0;
 
@@ -153,14 +154,15 @@ class Product {
       if (updatedTime != null) {
         final parsed = updatedTime.add(Duration(days: int.tryParse(trackPeriod.toString()) ?? 0));
         trackPeriod = parsed.difference(currentDate).inDays;
-        if(trackPeriod.isNegative)
-          {
-            return "0";
-          }
+        if (trackPeriod == 0) {
+          trackPeriod = parsed.difference(currentDate).inHours;
+          return "${trackPeriod.abs()} hours";
+        }
         return "$trackPeriod";
       }
     }
-    return "$trackPeriod";
+
+    return "0 Days";
   }
 
   Map<String, dynamic> toJson() {

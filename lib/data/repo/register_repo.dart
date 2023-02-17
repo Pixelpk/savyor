@@ -10,8 +10,8 @@ import '../remote_data_source/register_api/i_register_api.dart';
 
 class RegisterRepo implements IRegisterRepo {
   RegisterRepo({required this.api});
-  IRegisterApi api;
 
+  IRegisterApi api;
 
   @override
   Future<Either<Failure, User>> register(FormData map) async {
@@ -23,5 +23,4 @@ class RegisterRepo implements IRegisterRepo {
       return Left(getFailure(error as Exception));
     }
   }
-
 }

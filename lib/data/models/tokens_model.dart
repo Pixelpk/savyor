@@ -5,10 +5,8 @@ class JwtTokensModel {
   JwtTokensModel({this.access, this.refresh});
 
   JwtTokensModel.fromJson(Map<String, dynamic> json) {
-    access =
-    json['access'] != null ? TokenItem.fromJson(json['access']) : null;
-    refresh =
-    json['refresh'] != null ? TokenItem.fromJson(json['refresh']) : null;
+    access = json['access'] != null ? TokenItem.fromJson(json['access']) : null;
+    refresh = json['refresh'] != null ? TokenItem.fromJson(json['refresh']) : null;
   }
 
   Map<String, dynamic> toJson() {

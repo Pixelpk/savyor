@@ -14,6 +14,7 @@ class AppApi implements IAppApi {
     api.setIsTokenRequired(true);
     dio = api.get();
   }
+
   late Dio dio;
 
   @override

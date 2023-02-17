@@ -7,6 +7,7 @@ import '../interfaces/i_register_repo_.dart';
 
 class RegisterUserUseCase implements UseCase<User, SignUpEntity> {
   RegisterUserUseCase(this.repository);
+
   final IRegisterRepo repository;
 
   @override

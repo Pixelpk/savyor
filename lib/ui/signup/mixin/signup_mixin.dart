@@ -12,11 +12,9 @@ mixin RegisterMixin<T extends BaseStateFullWidget> on State<T> {
   late GlobalKey<FormState> validKey;
   late bool obscureText = true;
   late bool obscureText2 = true;
-  late final IMediaService iMediaService ;
-  late final Utils utils ;
+  late final IMediaService iMediaService;
 
-
-
+  late final Utils utils;
 
   @override
   void initState() {

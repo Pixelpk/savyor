@@ -13,6 +13,7 @@ import '../interfaces/i_register_repo_.dart';
 
 class TrackProductUseCase implements UseCase<ServerResponse, TrackProductEntity> {
   TrackProductUseCase(this.repository);
+
   final IProductRepo repository;
 
   @override

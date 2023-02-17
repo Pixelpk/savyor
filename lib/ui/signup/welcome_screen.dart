@@ -19,6 +19,7 @@ class WelcomeScreen extends BaseStateFullWidget {
 
 class WelcomeScreenState extends State<WelcomeScreen> {
   bool obscureText = true;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,13 +38,14 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                   SectionVerticalWidget(
                     firstWidget: Assets.logo1_5x,
                     secondWidget: Text.rich(TextSpan(
-                        style: context.textTheme.subtitle1?.copyWith(color: Style.textColor, fontWeight: FontWeight.w500),
+                        style:
+                            context.textTheme.subtitle1?.copyWith(color: Style.textColor, fontWeight: FontWeight.w500),
                         text: 'The only smart way to\n',
                         children: const [TextSpan(text: '      '), TextSpan(text: 'shop online and save')])),
                   ),
                   widget.dimens.k30.verticalBoxPadding(),
                   SectionVerticalWidget(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       firstWidget: Text(
                         'Welcome',
                         textAlign: TextAlign.center,
@@ -71,7 +73,10 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                     child: Text(
                       'Get started',
                       style: context.textTheme.subtitle1?.copyWith(
-                          fontFamily: 'Raleway', color: Style.scaffoldBackground, fontWeight: FontWeight.w600, fontSize: widget.dimens.k16),
+                          fontFamily: 'Raleway',
+                          color: Style.scaffoldBackground,
+                          fontWeight: FontWeight.w600,
+                          fontSize: widget.dimens.k16),
                       textAlign: TextAlign.center,
                     ),
                   ),

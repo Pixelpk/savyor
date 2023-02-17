@@ -13,6 +13,7 @@ import '../../domain/entities/update_product_entity/track_product_entity.dart';
 import '../../domain/interfaces/i_register_repo_.dart';
 import '../../domain/use_cases/active_product_usecase.dart';
 import '../../domain/use_cases/get_stores_usecase.dart';
+import '../../domain/use_cases/inactive_products_usecase.dart';
 import '../../domain/use_cases/register_user_usecase.dart';
 import '../../domain/use_cases/update_product_usecase.dart';
 import '../base/base_state.dart';
@@ -30,7 +31,6 @@ class MyListViewModel extends BaseViewModel {
   set selectedFilter(Filter value) {
     _selectedFilter = value;
     applyFilter();
-
   }
 
   bool get isDec => _isDec;
@@ -62,6 +62,7 @@ class MyListViewModel extends BaseViewModel {
 
   BaseLoadingState get updateProductState => _updateProductState;
   late Map<int?, Product> _activeProducts;
+
   List<Product> get products => _activeProducts.values.toList();
 
   List<Product> _currentProducts = [];
@@ -111,6 +112,25 @@ class MyListViewModel extends BaseViewModel {
     _state = BaseLoadingState.loading;
     setState();
     final useCase = GetActiveProductUseCase(_iProductRepo);
+    final res = await useCase(NoParams());
+    res.fold((error) {
+      _state = BaseLoadingState.error;
+      updateState();
+      return result?.onError(error);
+    }, (response) async {
+      _activeProducts = response.products ?? {};
+      _state = BaseLoadingState.succeed;
+      _currentProducts = products;
+      applyFilter();
+      updateState();
+      return result?.onSuccess(response);
+    });
+  }
+
+  Future<void> getInActiveProducts({Result? result}) async {
+    _state = BaseLoadingState.loading;
+    setState();
+    final useCase = GetInActiveProductUseCase(_iProductRepo);
     final res = await useCase(NoParams());
     res.fold((error) {
       _state = BaseLoadingState.error;

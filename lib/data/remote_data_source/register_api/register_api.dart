@@ -18,7 +18,6 @@ class RegisterApi implements IRegisterApi {
       d("RES${data.files}");
       dio.options.headers.clear();
       final responseData = await dio.post("/api/user/create", data: data);
-      d("RESPOMS${responseData.data}");
       return User.fromJson(responseData.data);
     } on DioError catch (e) {
       d(e);

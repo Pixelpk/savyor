@@ -12,8 +12,10 @@ import 'package:savyor/services/my_reflectable.dart' as prefix0;
 
 // ignore:unused_import
 import 'package:reflectable/mirrors.dart' as m;
+
 // ignore:unused_import
 import 'package:reflectable/src/reflectable_builder_based.dart' as r;
+
 // ignore:unused_import
 import 'package:reflectable/reflectable.dart' as r show Reflectable;
 
@@ -33,12 +35,8 @@ final _data = <r.Reflectable, r.ReflectorData>{
             {},
             {},
             {
-              r'': (bool b) => ({diyIdScript, name, websiteUrl}) => b
-                  ? prefix0.ScriptGenerator(
-                      diyIdScript: diyIdScript,
-                      name: name,
-                      websiteUrl: websiteUrl)
-                  : null
+              r'': (bool b) => ({diyIdScript, name, websiteUrl}) =>
+                  b ? prefix0.ScriptGenerator(diyIdScript: diyIdScript, name: name, websiteUrl: websiteUrl) : null
             },
             -1,
             -1,
@@ -47,61 +45,32 @@ final _data = <r.Reflectable, r.ReflectorData>{
             null)
       ],
       <m.DeclarationMirror>[
-        r.VariableMirrorImpl(r'diyIdScript', 134349829, 0,
-            const prefix0.Reflector(), -1, -1, -1, null, null),
-        r.VariableMirrorImpl(r'name', 134349829, 0, const prefix0.Reflector(),
-            -1, -1, -1, null, null),
-        r.VariableMirrorImpl(r'websiteUrl', 134349829, 0,
-            const prefix0.Reflector(), -1, -1, -1, null, null),
-        r.MethodMirrorImpl(r'generateCode', 524290, 0, -1, -1, -1, null,
-            const <int>[], const prefix0.Reflector(), null),
+        r.VariableMirrorImpl(r'diyIdScript', 134349829, 0, const prefix0.Reflector(), -1, -1, -1, null, null),
+        r.VariableMirrorImpl(r'name', 134349829, 0, const prefix0.Reflector(), -1, -1, -1, null, null),
+        r.VariableMirrorImpl(r'websiteUrl', 134349829, 0, const prefix0.Reflector(), -1, -1, -1, null, null),
+        r.MethodMirrorImpl(
+            r'generateCode', 524290, 0, -1, -1, -1, null, const <int>[], const prefix0.Reflector(), null),
         r.ImplicitGetterMirrorImpl(const prefix0.Reflector(), 0, 4),
         r.ImplicitGetterMirrorImpl(const prefix0.Reflector(), 1, 5),
         r.ImplicitGetterMirrorImpl(const prefix0.Reflector(), 2, 6),
-        r.MethodMirrorImpl(r'', 0, 0, -1, -1, -1, null, const <int>[0, 1, 2],
-            const prefix0.Reflector(), null),
-        r.MethodMirrorImpl(r'==', 2097154, -1, -1, -1, -1, null, const <int>[3],
-            const prefix0.Reflector(), null),
-        r.MethodMirrorImpl(r'toString', 2097154, -1, -1, -1, -1, null,
-            const <int>[], const prefix0.Reflector(), null),
-        r.MethodMirrorImpl(r'noSuchMethod', 524290, -1, -1, -1, -1, null,
-            const <int>[4], const prefix0.Reflector(), null),
-        r.MethodMirrorImpl(r'hashCode', 2097155, -1, -1, -1, -1, null,
-            const <int>[], const prefix0.Reflector(), null),
-        r.MethodMirrorImpl(r'runtimeType', 2097155, -1, -1, -1, -1, null,
-            const <int>[], const prefix0.Reflector(), null)
+        r.MethodMirrorImpl(r'', 0, 0, -1, -1, -1, null, const <int>[0, 1, 2], const prefix0.Reflector(), null),
+        r.MethodMirrorImpl(r'==', 2097154, -1, -1, -1, -1, null, const <int>[3], const prefix0.Reflector(), null),
+        r.MethodMirrorImpl(r'toString', 2097154, -1, -1, -1, -1, null, const <int>[], const prefix0.Reflector(), null),
+        r.MethodMirrorImpl(
+            r'noSuchMethod', 524290, -1, -1, -1, -1, null, const <int>[4], const prefix0.Reflector(), null),
+        r.MethodMirrorImpl(r'hashCode', 2097155, -1, -1, -1, -1, null, const <int>[], const prefix0.Reflector(), null),
+        r.MethodMirrorImpl(
+            r'runtimeType', 2097155, -1, -1, -1, -1, null, const <int>[], const prefix0.Reflector(), null)
       ],
       <m.ParameterMirror>[
         r.ParameterMirrorImpl(
-            r'diyIdScript',
-            134358022,
-            7,
-            const prefix0.Reflector(),
-            -1,
-            -1,
-            -1,
-            null,
-            null,
-            null,
-            #diyIdScript),
-        r.ParameterMirrorImpl(r'name', 134358022, 7, const prefix0.Reflector(),
-            -1, -1, -1, null, null, null, #name),
+            r'diyIdScript', 134358022, 7, const prefix0.Reflector(), -1, -1, -1, null, null, null, #diyIdScript),
+        r.ParameterMirrorImpl(r'name', 134358022, 7, const prefix0.Reflector(), -1, -1, -1, null, null, null, #name),
         r.ParameterMirrorImpl(
-            r'websiteUrl',
-            134358022,
-            7,
-            const prefix0.Reflector(),
-            -1,
-            -1,
-            -1,
-            null,
-            null,
-            null,
-            #websiteUrl),
-        r.ParameterMirrorImpl(r'other', 134348806, 8, const prefix0.Reflector(),
-            -1, -1, -1, null, null, null, null),
-        r.ParameterMirrorImpl(r'invocation', 134348806, 10,
-            const prefix0.Reflector(), -1, -1, -1, null, null, null, null)
+            r'websiteUrl', 134358022, 7, const prefix0.Reflector(), -1, -1, -1, null, null, null, #websiteUrl),
+        r.ParameterMirrorImpl(r'other', 134348806, 8, const prefix0.Reflector(), -1, -1, -1, null, null, null, null),
+        r.ParameterMirrorImpl(
+            r'invocation', 134348806, 10, const prefix0.Reflector(), -1, -1, -1, null, null, null, null)
       ],
       <Type>[prefix0.ScriptGenerator],
       1,

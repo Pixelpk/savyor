@@ -19,9 +19,7 @@ class LoginViewModel extends BaseViewModel {
   late IPrefHelper _prefHelper;
   BaseLoadingState _state = BaseLoadingState.none;
 
-  updateState() {
-    setState();
-  }
+  updateState() => setState();
 
   LoginViewModel() {
     _iLoginRepo = inject<ILoginRepo>();
@@ -55,6 +53,7 @@ class LoginViewModel extends BaseViewModel {
     final loginUseCase = ForgotPasswordUseCase(_iLoginRepo);
     final response = await loginUseCase(email);
     _state = BaseLoadingState.succeed;
+
     updateState();
     response.fold((error) {
       result.onError(error);

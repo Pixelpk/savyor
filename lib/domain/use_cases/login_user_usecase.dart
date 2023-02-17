@@ -9,10 +9,11 @@ import '../interfaces/i_register_repo_.dart';
 
 class LoginUserUseCase implements UseCase<User, LoginEntity> {
   LoginUserUseCase(this.repository);
+
   final ILoginRepo repository;
 
   @override
   Future<Either<Failure, User>> call(LoginEntity params) async {
-    return repository.login( params.toJson());
+    return repository.login(params.toJson());
   }
 }

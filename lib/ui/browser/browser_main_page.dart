@@ -35,6 +35,7 @@ class BrowserMainPageState extends State<BrowserMainPage> {
   List<Store> list = [];
   TextEditingController textEditingController = TextEditingController();
   late final IExternalValues iExternalValues;
+
   @override
   void initState() {
     iExternalValues = inject<IExternalValues>();
@@ -57,8 +58,7 @@ class BrowserMainPageState extends State<BrowserMainPage> {
         title: CupertinoTextField(
           onTap: readOnly
               ? () async {
-                  List<Store> result = await showSearch(
-                      context: context, delegate: StoreSearchDelegate(list: list));
+                  List<Store> result = await showSearch(context: context, delegate: StoreSearchDelegate(list: list));
                   setState(() {
                     list = result;
                     if (list.isNotEmpty) {
@@ -91,11 +91,9 @@ class BrowserMainPageState extends State<BrowserMainPage> {
           onEditingComplete: () async {
             if (textEditingController.text.isNotEmpty) {
               List<Store> result = await showSearch(
-                  query: textEditingController.text,
-                  context: context,
-                  delegate: StoreSearchDelegate(list: list));
+                  query: textEditingController.text, context: context, delegate: StoreSearchDelegate(list: list));
               setState(() {
-                list =  result;
+                list = result;
                 if (list.isNotEmpty) {
                   readOnly = false;
                   textEditingController.text = list[0].name ?? '';
@@ -171,7 +169,7 @@ class BrowserMainPageState extends State<BrowserMainPage> {
                                 ],
                               ),
                             ).onTap(() async {
-                             await  viewModel.getInstruction(Uri.tryParse( e.url!)!.host);
+                              await viewModel.getInstruction(Uri.tryParse(e.url!)!.host);
                               widget.navigator.pushNamed(RoutePath.webView, object: e.url);
                             }));
                       }).toList(),
@@ -190,7 +188,6 @@ class BrowserMainPageState extends State<BrowserMainPage> {
     );
   }
 }
-
 
 // import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 // import 'package:flutter/material.dart';

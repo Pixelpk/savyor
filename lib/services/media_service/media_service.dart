@@ -12,7 +12,7 @@ class MediaService implements IMediaService {
       return await _picker.pickImage(source: ImageSource.camera);
     } catch (e) {
       d(e);
-      return null ;
+      return null;
     }
   }
 
@@ -22,7 +22,7 @@ class MediaService implements IMediaService {
       return await _picker.pickImage(source: ImageSource.gallery);
     } catch (e) {
       d(e);
-      return null ;
+      return null;
     }
   }
 }

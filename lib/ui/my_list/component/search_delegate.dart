@@ -8,7 +8,6 @@ class ProductSearchDelegate extends SearchDelegate {
   ProductSearchDelegate({required this.list})
       : super(
             searchFieldDecorationTheme: InputDecorationTheme(
-
                 hintStyle: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.unSelectedColor),
                 filled: true,
                 fillColor: const Color(0xffF8F8F9),
@@ -26,10 +25,11 @@ class ProductSearchDelegate extends SearchDelegate {
     return Theme.of(context).copyWith(
       inputDecorationTheme: searchFieldDecorationTheme,
       textTheme: Theme.of(context).textTheme.copyWith(
-        headline6: TextStyle(color: Colors.black),
-      ),
+            headline6: TextStyle(color: Colors.black),
+          ),
     );
   }
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -50,7 +50,10 @@ class ProductSearchDelegate extends SearchDelegate {
         onPressed: () {
           close(context, List<String>.empty());
         },
-        icon: const Icon(Icons.arrow_back,color: Colors.white,));
+        icon: const Icon(
+          Icons.arrow_back,
+          color: Colors.white,
+        ));
   }
 
   @override
@@ -61,28 +64,38 @@ class ProductSearchDelegate extends SearchDelegate {
         matchQuery.add(item);
       }
     }
-    return matchQuery.isEmpty?Center(child: Text('$query Not Fount', style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.textHintColor),),):ListView.builder(
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Assets.search,
-          ),
-          dense: true,
-          title: Text(result.productName ?? '', style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.textColor),),
-          trailing: Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Assets.arrowLeft,
-          ),
-          onTap: () {
-            matchQuery.insert(0, matchQuery.removeAt(index));
-            close(context, matchQuery);
-          },
-        );
-      },
-      itemCount: matchQuery.length,
-    );
+    return matchQuery.isEmpty
+        ? Center(
+            child: Text(
+              '$query Not Fount',
+              style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.textHintColor),
+            ),
+          )
+        : ListView.builder(
+            itemBuilder: (context, index) {
+              var result = matchQuery[index];
+              return ListTile(
+                leading: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Assets.search,
+                ),
+                dense: true,
+                title: Text(
+                  result.productName ?? '',
+                  style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.textColor),
+                ),
+                trailing: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Assets.arrowLeft,
+                ),
+                onTap: () {
+                  matchQuery.insert(0, matchQuery.removeAt(index));
+                  close(context, matchQuery);
+                },
+              );
+            },
+            itemCount: matchQuery.length,
+          );
   }
 
   @override
@@ -95,33 +108,40 @@ class ProductSearchDelegate extends SearchDelegate {
       }
     }
 
-    return matchQuery.isEmpty?Center(child: Text('$query Not Fount', style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.textHintColor),),):ListView.builder(
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Assets.search,
-          ),
-          dense: true,
-          title: RichText(
-            text: TextSpan(
-              children: highlightOccurrences(result.productName ?? '', query),
-              style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.unSelectedColor),
+    return matchQuery.isEmpty
+        ? Center(
+            child: Text(
+              '$query Not Fount',
+              style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.textHintColor),
             ),
-          ),
-          trailing: Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Assets.arrowLeft,
-          ),
-          onTap: () {
-            matchQuery.insert(0, matchQuery.removeAt(index));
-            close(context, matchQuery);
-          },
-        );
-      },
-      itemCount: matchQuery.length,
-    );
+          )
+        : ListView.builder(
+            itemBuilder: (context, index) {
+              var result = matchQuery[index];
+              return ListTile(
+                leading: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Assets.search,
+                ),
+                dense: true,
+                title: RichText(
+                  text: TextSpan(
+                    children: highlightOccurrences(result.productName ?? '', query),
+                    style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.unSelectedColor),
+                  ),
+                ),
+                trailing: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Assets.arrowLeft,
+                ),
+                onTap: () {
+                  matchQuery.insert(0, matchQuery.removeAt(index));
+                  close(context, matchQuery);
+                },
+              );
+            },
+            itemCount: matchQuery.length,
+          );
   }
 }
 

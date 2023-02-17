@@ -7,10 +7,11 @@ import 'package:savyor/application/network/external_values/ExternalValues.dart';
 import 'package:savyor/common/logger/log.dart';
 import 'package:savyor/data/models/tokens_model.dart';
 
-
 class JwtRemoteAccessToken {
   JwtRemoteAccessToken({required this.externalValues});
+
   ExternalValues externalValues;
+
   Future<JwtTokensModel> getTokens(String? oldRefreshToken) async {
     try {
       final res = await Dio(BaseOptions(

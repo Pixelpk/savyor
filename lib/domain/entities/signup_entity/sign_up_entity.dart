@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -15,13 +13,10 @@ class SignUpEntity {
       return FormData.fromMap({
         "image": await MultipartFile.fromFile(image!.path, filename: image!.path.split('/').last),
         "username": userName,
-        "password": password,
+        "password": password
       });
     } else {
-      return FormData.fromMap({
-        "username": userName,
-        "password": password,
-      });
+      return FormData.fromMap({"username": userName, "password": password});
     }
   }
 }

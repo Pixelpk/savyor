@@ -19,14 +19,13 @@ class Assets {
     'assets/arrowLeft.png',
     height: 16,
   );
+
   static Widget eye(Color? color) => Image.asset(
         'assets/eye.png',
         color: color,
       );
   static final union = SvgPicture.asset('assets/union.svg');
   static final savyorLogo = SvgPicture.asset('assets/icons/savyorLogo.svg');
-
-
 
   static final unionBottom = SvgPicture.asset('assets/unionBottom.svg');
   static final union2 = Image.asset('assets/union2.png');
@@ -36,16 +35,19 @@ class Assets {
 
   static final aboutPeople = Image.asset('assets/peoples.png');
   static final aboutPhone = Image.asset('assets/phone.png');
+
   static Widget arrowUp(Color? color) => Image.asset(
         'assets/arrowUp.png',
         color: color,
         height: 16,
       );
+
   static Widget arrowDown(Color? color) => Image.asset(
         'assets/arrowDown.png',
         color: color,
         height: 16,
       );
+
   static Widget browser(Color? color) => Padding(
         padding: const EdgeInsets.only(bottom: 4.0, top: 2.0),
         child: Image.asset(
@@ -54,6 +56,7 @@ class Assets {
           height: 20,
         ),
       );
+
   static Widget list(Color? color) => Padding(
         padding: const EdgeInsets.only(bottom: 4.0, top: 2.0),
         child: Image.asset(
@@ -62,6 +65,7 @@ class Assets {
           height: 20,
         ),
       );
+
   static Widget user(Color? color) => Padding(
         padding: const EdgeInsets.only(bottom: 4.0, top: 2.0),
         child: Image.asset(
@@ -72,13 +76,14 @@ class Assets {
       );
 
   static Widget minus({double? height, required bool isZero}) => Image.asset(
-    isZero ? 'assets/minus_light.png':'assets/minus.png',
-    height: height ?? 20,
-  );
+        isZero ? 'assets/minus_light.png' : 'assets/minus.png',
+        height: height ?? 20,
+      );
+
   static Widget plus({double? height}) => Image.asset(
-   'assets/plus.png',
-    height: height ??20,
-  );
+        'assets/plus.png',
+        height: height ?? 20,
+      );
   static final defaultProfile = Image.asset('assets/default_profile.png');
   static final progress = Image.asset('assets/progress.png');
   static final editProfile = Image.asset(
@@ -118,7 +123,16 @@ class Assets {
     height: 25,
   );
 
-  static final openBrowser = Image.asset('assets/open_browser.png',height: 30,);
-  static final copyLink = Image.asset('assets/copy_link.png',height: 25,);
-  static final exitBrowser = Image.asset('assets/exit_browser.png',height: 25,);
+  static final openBrowser = Image.asset(
+    'assets/open_browser.png',
+    height: 30,
+  );
+  static final copyLink = Image.asset(
+    'assets/copy_link.png',
+    height: 25,
+  );
+  static final exitBrowser = Image.asset(
+    'assets/exit_browser.png',
+    height: 25,
+  );
 }

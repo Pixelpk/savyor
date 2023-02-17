@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+
 enum DeviceType { phone, tablet }
 
 extension ExtensionNum on num {
   String get twoDigits => toString().padLeft(2, "0");
 }
-
-
-
 
 extension ExtensionDuration on Duration {
   String get humanize =>
@@ -18,11 +16,12 @@ extension StringExtension on String {
 
   double toFloat() => double.parse(this);
   String capitalize() {
-    if(this.trim().isNotEmpty) {
+    if (trim().isNotEmpty) {
       return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
     }
     return "";
   }
+
   String defaultOnEmpty([String defaultValue = ""]) => isEmpty ? defaultValue : this;
 }
 
@@ -54,7 +53,6 @@ extension ContextExtension on BuildContext {
   }
 
   DeviceType get getDeviceType => MediaQuery.of(this).size.shortestSide < 550 ? DeviceType.phone : DeviceType.tablet;
-
 }
 
 extension ClickableExtension on Widget {

@@ -10,7 +10,6 @@ import 'package:savyor/ui/login/forgot_password_screen.dart';
 import 'package:savyor/ui/login/login_screen.dart';
 import 'package:savyor/ui/login/pin_code_screen.dart';
 import 'package:savyor/ui/my_list/my_list_detail.dart';
-import 'package:savyor/ui/my_list/my_list_view_model.dart';
 import 'package:savyor/ui/signup/signup_screen.dart';
 import 'package:savyor/ui/signup/welcome_screen.dart';
 import 'package:savyor/ui/splash/splash_screen.dart';

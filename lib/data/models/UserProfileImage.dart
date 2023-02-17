@@ -6,6 +6,7 @@ class GetUserProfile {
   bool? error;
   String? msg;
   IExternalValues iExternalValues = inject();
+
   GetUserProfile({this.profilePic, this.error, this.msg});
 
   GetUserProfile.fromJson(Map<String, dynamic> json) {

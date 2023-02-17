@@ -10,9 +10,11 @@ import 'package:savyor/ui/widget/ui_background.dart';
 import '../../common/logger/log.dart';
 import '../../data/models/user.dart';
 import '../../di/di.dart';
+
 loadAppData(BuildContext context) async {
   await Future.wait([context.read<HomeViewModel>().getSupportedStores()]);
 }
+
 class SplashScreen extends BaseStateFullWidget {
   SplashScreen({Key? key}) : super(key: key);
 
@@ -30,16 +32,13 @@ class SplashScreenState extends State<SplashScreen> {
       await loadAppData(context);
       widget.navigator.pushNamedAndRemoveUntil(RoutePath.home);
     } else {
-      {
-        widget.navigator.pushNamedAndRemoveUntil(RoutePath.login);
-      }
+      widget.navigator.pushNamedAndRemoveUntil(RoutePath.login);
     }
   }
 
   @override
   void initState() {
     Future.microtask(() => validateSession());
-
     super.initState();
   }
 
@@ -47,17 +46,9 @@ class SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body: Stack(
-        children: [
-          UiBackground(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Center(
-              child: Assets.logo2x,
-            ),
-          ),
-        ],
-      ),
-    ));
+            body: Stack(children: [
+      UiBackground(),
+      Padding(padding: const EdgeInsets.symmetric(horizontal: 25), child: Center(child: Assets.logo2x))
+    ])));
   }
 }

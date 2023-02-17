@@ -15,12 +15,11 @@ class UserApi implements IUserApi {
     api.setIsTokenRequired(true);
     dio = api.get();
   }
+
   late Dio dio;
 
-
-
   @override
-  Future<GetUserProfile> getUserProfile() async  {
+  Future<GetUserProfile> getUserProfile() async {
     try {
       final responseData = await dio.get("/api/user/profilePic");
       return GetUserProfile.fromJson(responseData.data);
@@ -35,9 +34,9 @@ class UserApi implements IUserApi {
   }
 
   @override
-  Future<ServerResponse> updateProfileImage(FormData formData) async  {
+  Future<ServerResponse> updateProfileImage(FormData formData) async {
     try {
-      final responseData = await dio.put("/api/user/updateProfilePic",data: formData);
+      final responseData = await dio.put("/api/user/updateProfilePic", data: formData);
       return ServerResponse.fromJson(responseData.data);
     } on DioError catch (e) {
       d(e);
@@ -48,10 +47,11 @@ class UserApi implements IUserApi {
       throw ResponseException(msg: e.toString());
     }
   }
+
   @override
-  Future<ServerResponse> changePassword(Map<String,dynamic> data) async  {
+  Future<ServerResponse> changePassword(Map<String, dynamic> data) async {
     try {
-      final responseData = await dio.put("/api/password/change",data: data);
+      final responseData = await dio.put("/api/password/change", data: data);
       return ServerResponse.fromJson(responseData.data);
     } on DioError catch (e) {
       d(e);

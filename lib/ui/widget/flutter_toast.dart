@@ -1,7 +1,7 @@
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SectionToast {
-  static show(String? msg){
+  static show(String? msg) {
     return Fluttertoast.showToast(
         msg: msg ?? 'Something went wrong',
         toastLength: Toast.LENGTH_LONG,
@@ -9,7 +9,6 @@ class SectionToast {
         timeInSecForIosWeb: 1,
         // backgroundColor: Style.darkBorderColor,
         // textColor: Style.scaffoldBackground,
-        fontSize: 16.0
-    );
+        fontSize: 16.0);
   }
 }
