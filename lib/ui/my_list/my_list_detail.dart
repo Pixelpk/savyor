@@ -47,7 +47,6 @@ class _MyListDetailState extends State<MyListDetail> implements Result<ServerRes
 
   @override
   Widget build(BuildContext context) {
-    print(widget.product.pictureURL);
     final retailer = Uri.tryParse(widget.product.productURL)?.host.replaceAll(".com", '').replaceAll("www.", "");
 
     return ChangeNotifierProvider.value(

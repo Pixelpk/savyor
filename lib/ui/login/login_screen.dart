@@ -35,7 +35,7 @@ class LoginScreenState extends State<LoginScreen> with LoginMixin implements Res
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           UiBackground(),
@@ -44,123 +44,128 @@ class LoginScreenState extends State<LoginScreen> with LoginMixin implements Res
             child: SizedBox(
               width: context.width,
               height: context.height,
-              child: Consumer<LoginViewModel>(
-                builder: (ctx,viewModel,c) {
-                  return LoadingOverLay(
-                    loadingState: viewModel.state ,
-                    child:  Form(
-                      key: validKey,
-                      child: Column(
-                        children: [
-                          SectionVerticalWidget(
-                            firstWidget: Assets.logo1_5x,
-                            secondWidget: Text.rich(TextSpan(
-                                style: context.textTheme.subtitle1?.copyWith(color: Style.textColor, fontWeight: FontWeight.w500),
-                                text: 'The only smart way to\n',
-                                children: const [TextSpan(text: '      '), TextSpan(text: 'shop online and save')])),
-                          ),
-                          widget.dimens.k30.verticalBoxPadding(),
-                          SectionTextField(
-                              hintText: 'Email Address',
-                              controller: name,
-                              prefixIcon: Assets.email,
-                              keyboardType: TextInputType.emailAddress,
-                              textInputAction: TextInputAction.next,
+              child: Consumer<LoginViewModel>(builder: (ctx, viewModel, c) {
+                return LoadingOverLay(
+                  loadingState: viewModel.state,
+                  child: Form(
+                    key: validKey,
+                    child: Column(
+                      children: [
+                        SectionVerticalWidget(
+                          firstWidget: Assets.logo1_5x,
+                          secondWidget: Text.rich(TextSpan(
+                              style: context.textTheme.subtitle1
+                                  ?.copyWith(color: Style.textColor, fontWeight: FontWeight.w500),
+                              text: 'The only smart way to\n',
+                              children: const [TextSpan(text: '      '), TextSpan(text: 'shop online and save')])),
+                        ),
+                        widget.dimens.k30.verticalBoxPadding(),
+                        SectionTextField(
+                          hintText: 'Email Address',
+                          controller: name,
+                          prefixIcon: Assets.email,
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          validator: (e) {
+                            if (e != null && e.trim().isNotEmpty && utils.isEmail(e)) {
+                              return null;
+                            }
+                            return "Invalid Email";
+                          },
+                          prefixIconConstraints: const BoxConstraints(maxWidth: 30),
+                        ),
+                        widget.dimens.k10.verticalBoxPadding(),
+                        SectionVerticalWidget(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          gap: 0,
+                          firstWidget: SectionTextField(
+                            hintText: 'Password',
+                            prefixIcon: Assets.lock,
+                            suffixIcon: Assets.eye(!obscureText ? Style.primaryColor : null).onTap(() {
+                              setState(() {
+                                obscureText = !obscureText;
+                              });
+                            }),
                             validator: (e) {
-                              if (e != null && e.trim().isNotEmpty && utils.isEmail(e)) {
+                              if (e != null && e.trim().isNotEmpty) {
                                 return null;
                               }
-                              return "Invalid Email";
+                              return "Field required";
                             },
-                              prefixIconConstraints: const BoxConstraints(maxWidth: 30),
+                            controller: password,
+                            obscureText: obscureText,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.done,
+                            prefixIconConstraints: const BoxConstraints(maxWidth: 32),
+                            suffixIconConstraints: const BoxConstraints(maxWidth: 25),
                           ),
-                          widget.dimens.k10.verticalBoxPadding(),
-                          SectionVerticalWidget(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            gap: 0,
-                            firstWidget: SectionTextField(
-                              hintText: 'Password',
-                              prefixIcon: Assets.lock,
-                              suffixIcon: Assets.eye(!obscureText?Style.primaryColor:null).onTap(() {setState(() {
-                                obscureText = !obscureText;
-                              }); }),
-                              validator: (e) {
-                                if (e != null && e.trim().isNotEmpty) {
-                                  return null;
-                                }
-                                return "Field required";
-                              },
-                              controller: password,
-                              obscureText: obscureText,
-                              keyboardType: TextInputType.text,
-                              textInputAction: TextInputAction.done,
-                              prefixIconConstraints: const BoxConstraints(maxWidth: 32),
-                              suffixIconConstraints: const BoxConstraints(maxWidth: 25),
-                            ),
-                            secondWidget: TextButton(
-                              onPressed: (){
-                                widget.navigator.pushNamed(RoutePath.forgotPassword);
-                              },
-                              child: Text(
-                                'Forgot Password?',
-                                style: context.textTheme.subtitle2?.copyWith(
-                                  color: Style.hintColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.end,
+                          secondWidget: TextButton(
+                            onPressed: () {
+                              widget.navigator.pushNamed(RoutePath.forgotPassword);
+                            },
+                            child: Text(
+                              'Forgot Password?',
+                              style: context.textTheme.subtitle2?.copyWith(
+                                color: Style.hintColor,
+                                fontWeight: FontWeight.bold,
                               ),
+                              textAlign: TextAlign.end,
                             ),
                           ),
-                          widget.dimens.k40.verticalBoxPadding(),
-                          SectionVerticalWidget(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            gap: 0,
-                            firstWidget: BigBtn(
-                              onTap: () {
-                                if(validated)
-                                  {
-
-                                    viewModel.login(LoginEntity(userName: name.text.trim(),password: password.text.trim()), this);
-                                  }
-                              },
-                              color: Style.primaryColor,
-                              child: Text(
-                                'Log in',
-                                style: context.textTheme.subtitle1?.copyWith(
-                                    fontFamily: 'Raleway', color: Style.scaffoldBackground, fontWeight: FontWeight.w600, fontSize: widget.dimens.k16),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            secondWidget: TextButton(
-                              onPressed: (){
-                                widget.navigator.pushNamedAndRemoveUntil(RoutePath.signup);
-                              },
-                              child: Text(
-                                'Sign up',
-                                style: context.textTheme.subtitle1?.copyWith(color: Style.primaryColor, fontWeight: FontWeight.w700),
-                                textAlign: TextAlign.center,
-                              ),
+                        ),
+                        widget.dimens.k40.verticalBoxPadding(),
+                        SectionVerticalWidget(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          gap: 0,
+                          firstWidget: BigBtn(
+                            onTap: () {
+                              if (validated) {
+                                viewModel.login(
+                                    LoginEntity(userName: name.text.trim(), password: password.text.trim()), this);
+                              }
+                            },
+                            color: Style.primaryColor,
+                            child: Text(
+                              'Log in',
+                              style: context.textTheme.subtitle1?.copyWith(
+                                  fontFamily: 'Raleway',
+                                  color: Style.scaffoldBackground,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: widget.dimens.k16),
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                        ],
-                      ),
+                          secondWidget: TextButton(
+                            onPressed: () {
+                              widget.navigator.pushNamedAndRemoveUntil(RoutePath.signup);
+                            },
+                            child: Text(
+                              'Sign up',
+                              style: context.textTheme.subtitle1
+                                  ?.copyWith(color: Style.primaryColor, fontWeight: FontWeight.w700),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  );
-                }
-              ),
+                  ),
+                );
+              }),
             ),
           ),
         ],
       ),
     ));
   }
+
   @override
   onError(Failure error) {
     SectionToast.show(ErrorMessage.fromError(error).message);
   }
 
   @override
-  onSuccess(User result) async  {
+  onSuccess(User result) async {
     await loadAppData(context);
     context.read<AccountViewModel>().loadUser();
     widget.navigator.pushNamedAndRemoveUntil(RoutePath.home);

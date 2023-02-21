@@ -67,7 +67,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                   widget.dimens.k80.verticalBoxPadding(),
                   BigBtn(
                     onTap: () {
-                      widget.navigator.pushNamedAndRemoveUntil(RoutePath.home);
+                      widget.navigator.pushNamedAndRemoveUntil(RoutePath.login);
                     },
                     color: Style.primaryColor,
                     child: Text(

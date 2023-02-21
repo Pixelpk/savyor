@@ -262,6 +262,6 @@ class LoginScreenState extends State<SignupScreen> with RegisterMixin implements
   onSuccess(User result) async {
     await loadAppData(context);
     context.read<AccountViewModel>().loadUser();
-    widget.navigator.pushNamedAndRemoveUntil(RoutePath.welcome);
+    widget.navigator.pushNamedAndRemoveUntil(RoutePath.home);
   }
 }

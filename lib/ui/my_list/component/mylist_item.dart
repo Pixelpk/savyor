@@ -15,7 +15,6 @@ class MyListItem extends BaseStateLessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final retailer = Uri.tryParse(product.productURL)?.host.replaceAll(".com", '').replaceAll("www.", "");
     return SizedBox(
       height: 175,
       width: context.width,
@@ -45,7 +44,7 @@ class MyListItem extends BaseStateLessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '${retailer?.capitalize()}',
+                                  '${product.retailer}'.capitalize(),
                                   style: context.textTheme.subtitle2
                                       ?.copyWith(fontWeight: FontWeight.w600, color: Style.textColor),
                                 ),

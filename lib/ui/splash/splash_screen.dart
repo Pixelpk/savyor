@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:savyor/application/main_config/routes/route_path.dart';
@@ -24,16 +26,24 @@ class SplashScreen extends BaseStateFullWidget {
 
 class SplashScreenState extends State<SplashScreen> {
   validateSession() async {
-    final prefHelper = inject<IPrefHelper>();
-    final token = prefHelper.retrieveToken();
-    final user = prefHelper.retrieveUser();
-    d(user.runtimeType);
-    if (token != null && user.runtimeType == User) {
-      await loadAppData(context);
-      widget.navigator.pushNamedAndRemoveUntil(RoutePath.home);
-    } else {
-      widget.navigator.pushNamedAndRemoveUntil(RoutePath.login);
-    }
+    Timer(const Duration(seconds: 3), () async {
+      final prefHelper = inject<IPrefHelper>();
+
+      if (prefHelper.getBool('isFirstTime') ?? true) {
+        prefHelper.saveBool('isFirstTime', false);
+        widget.navigator.pushNamedAndRemoveUntil(RoutePath.welcome);
+      } else {
+        final token = prefHelper.retrieveToken();
+        final user = prefHelper.retrieveUser();
+        d(user.runtimeType);
+        if (token != null && user.runtimeType == User) {
+          await loadAppData(context);
+          widget.navigator.pushNamedAndRemoveUntil(RoutePath.home);
+        } else {
+          widget.navigator.pushNamedAndRemoveUntil(RoutePath.login);
+        }
+      }
+    });
   }
 
   @override

@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:savyor/data/models/scrapping_instruction.dart';
 import 'package:savyor/data/models/supported_store.dart';
-import 'package:savyor/data/models/user.dart';
 
 import '../../../../application/core/exception/exception.dart';
 import '../../../../application/network/client/iApService.dart';
@@ -27,6 +26,7 @@ class AppApi implements IAppApi {
       final exception = getException(e);
       throw exception;
     } catch (e, t) {
+      d(t);
       d(e);
       throw ResponseException(msg: e.toString());
     }

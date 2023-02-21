@@ -5,11 +5,8 @@ import '../../data/local_data_source/preference/i_pref_helper.dart';
 import '../../data/models/user.dart';
 import '../../di/di.dart';
 import '../../domain/entities/login_entity/login_enityt.dart';
-import '../../domain/entities/signup_entity/sign_up_entity.dart';
-import '../../domain/interfaces/i_register_repo_.dart';
 import '../../domain/use_cases/forgot_password.dart';
 import '../../domain/use_cases/login_user_usecase.dart';
-import '../../domain/use_cases/register_user_usecase.dart';
 import '../base/base_state.dart';
 import '../base/base_view_model.dart';
 

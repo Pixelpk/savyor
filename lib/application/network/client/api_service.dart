@@ -50,7 +50,7 @@ class ApiService extends Interceptor implements IApiService {
     if (_isTokenRequired) {
       final token = inject<IPrefHelper>().retrieveToken();
       if (token != null) {
-        options.headers.addAll({"x-access-token": token!});
+        options.headers.addAll({"x-access-token": token});
       }
     }
     return super.onRequest(options, handler);

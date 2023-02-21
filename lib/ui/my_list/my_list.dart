@@ -219,10 +219,10 @@ class MyListState extends State<MyList> implements Result<ActiveProduct> {
                             padding: const EdgeInsets.only(top: 8.0),
                             child: SectionHorizontalWidget(
                               firstWidget: Assets.arrowDown(viewModel.isDec ? Style.primaryColor : null).onTap(() {
-                                viewModel.isDec = !viewModel.isDec;
+                                viewModel.isDec = true;
                               }),
                               secondWidget: Assets.arrowUp(viewModel.isDec ? null : Style.primaryColor).onTap(() {
-                                viewModel.isDec = !viewModel.isDec;
+                                viewModel.isDec = false;
                               }),
                             ),
                           )
@@ -238,7 +238,9 @@ class MyListState extends State<MyList> implements Result<ActiveProduct> {
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    await context.read<MyListViewModel>().getActiveProducts(result: this);
+                    inActiveProducts
+                        ? await context.read<MyListViewModel>().getInActiveProducts(result: this)
+                        : await context.read<MyListViewModel>().getActiveProducts(result: this);
                   },
                   child: ListView.builder(
                       itemCount: viewModel.currentProducts.length,

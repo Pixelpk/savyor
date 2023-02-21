@@ -63,6 +63,7 @@ class Product {
   dynamic shipAddZIP;
   dynamic shipAddState;
   bool? productActive;
+  String? retailer;
   MyListViewModel? viewModel;
   late final IExternalValues externalValues = inject();
 
@@ -79,6 +80,7 @@ class Product {
       this.viewModel,
       this.varColor,
       this.varSize,
+      this.retailer,
       this.subCate,
       this.qty,
       this.currentPrice,
@@ -106,6 +108,9 @@ class Product {
     modURL = json['ModURL'];
     shortURL = json['ShortURL'];
     pictureURL = "${externalValues.getBaseUrl()}${json['PictureURL']}";
+    retailer = json['ProductURL'] == null
+        ? "Name"
+        : Uri.tryParse(json['ProductURL'])?.host.replaceAll(".com", '').replaceAll("www.", "");
     productName = json['ProductName'];
     rootCate = json['RootCate'];
     varColor = json['Var_Color'];
@@ -158,7 +163,7 @@ class Product {
           trackPeriod = parsed.difference(currentDate).inHours;
           return "${trackPeriod.abs()} hours";
         }
-        return "$trackPeriod";
+        return "${trackPeriod.abs()} Days";
       }
     }
 

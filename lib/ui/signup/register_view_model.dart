@@ -15,7 +15,7 @@ class RegisterViewModel extends BaseViewModel {
   BaseLoadingState _state = BaseLoadingState.none;
 
   late final SignUpEntity signUpEntity;
-
+  
   updateState() {
     setState();
   }

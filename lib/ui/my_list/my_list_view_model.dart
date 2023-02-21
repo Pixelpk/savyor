@@ -1,20 +1,12 @@
 import 'package:savyor/application/core/usecases/usecase.dart';
-import 'package:savyor/domain/interfaces/i_app_repo_.dart';
 import 'package:savyor/domain/interfaces/i_product_repo.dart';
 
 import '../../application/core/result.dart';
-import '../../data/local_data_source/preference/i_pref_helper.dart';
 import '../../data/models/active_product.dart';
-import '../../data/models/supported_store.dart';
-import '../../data/models/user.dart';
 import '../../di/di.dart';
-import '../../domain/entities/signup_entity/sign_up_entity.dart';
 import '../../domain/entities/update_product_entity/track_product_entity.dart';
-import '../../domain/interfaces/i_register_repo_.dart';
 import '../../domain/use_cases/active_product_usecase.dart';
-import '../../domain/use_cases/get_stores_usecase.dart';
 import '../../domain/use_cases/inactive_products_usecase.dart';
-import '../../domain/use_cases/register_user_usecase.dart';
 import '../../domain/use_cases/update_product_usecase.dart';
 import '../base/base_state.dart';
 import '../base/base_view_model.dart';
@@ -76,24 +68,49 @@ class MyListViewModel extends BaseViewModel {
 
   sortByPrice() {
     if (_isDec) {
-      currentProducts.sort((a, b) => a.price!.compareTo(b.price as num));
+      _currentProducts.sort((a, b) => b.price!.compareTo(a.price!));
     } else {
-      currentProducts.sort((a, b) => b.price!.compareTo(a.price as num));
+      _currentProducts.sort((a, b) => a.price!.compareTo(b.price as double));
     }
     setState();
   }
 
   sortByPeriod() {
-    if (_isDec) {
-      currentProducts.sort((a, b) => a.period!.compareTo(b.period as num));
+    List<Product> hours = [];
+    List<Product> days = [];
+
+    for (var element in _currentProducts) {
+      if (element.getRemainingDaysOrHours().split(' ')[1] == 'hours') {
+        hours.add(element);
+      } else {
+        days.add(element);
+      }
+    }
+
+    if (!_isDec) {
+      hours.sort(
+          (a, b) => a.getRemainingDaysOrHours().split(' ')[0].compareTo(b.getRemainingDaysOrHours().split(' ')[0]));
+      days.sort(
+          (a, b) => a.getRemainingDaysOrHours().split(' ')[0].compareTo(b.getRemainingDaysOrHours().split(' ')[0]));
+      _currentProducts = hours + days;
     } else {
-      currentProducts.sort((a, b) => b.period!.compareTo(a.period as num));
+      hours.sort(
+          (a, b) => b.getRemainingDaysOrHours().split(' ')[0].compareTo(a.getRemainingDaysOrHours().split(' ')[0]));
+      days.sort(
+          (a, b) => b.getRemainingDaysOrHours().split(' ')[0].compareTo(a.getRemainingDaysOrHours().split(' ')[0]));
+      _currentProducts = days + hours;
     }
     setState();
   }
 
   setByRetailer() {
-    currentProducts = products;
+    if (!_isDec) {
+      _currentProducts.sort((a, b) => a.retailer!.compareTo(b.retailer!));
+    } else {
+      _currentProducts.sort((a, b) {
+        return b.retailer!.compareTo(a.retailer!);
+      });
+    }
     setState();
   }
 

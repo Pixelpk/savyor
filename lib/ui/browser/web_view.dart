@@ -1,18 +1,18 @@
 import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:html/dom.dart' as dom;
-import 'package:html/parser.dart' as html;
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:savyor/application/core/extensions/extensions.dart';
 import 'package:savyor/application/core/failure/failure.dart';
+import 'package:savyor/common/logger/log.dart';
 import 'package:savyor/constant/Images/svgs.dart';
 import 'package:savyor/constant/style.dart';
-import 'package:savyor/data/remote_data_source/url_api.dart';
-import 'package:savyor/di/di.dart';
 import 'package:savyor/ui/account/user_view_model.dart';
+import 'package:savyor/ui/base/base_widget.dart';
 import 'package:savyor/ui/browser/component/bottom_sheet.dart';
-import 'package:savyor/ui/browser/model/data_parser.dart';
 import 'package:savyor/ui/home/home_view_model.dart';
 import 'package:savyor/ui/widget/big_btn.dart';
 import 'package:savyor/ui/widget/flutter_toast.dart';
@@ -20,11 +20,6 @@ import 'package:savyor/ui/widget/rounded_text_field.dart';
 import 'package:savyor/ui/widget/section_horizontal_widget.dart';
 import 'package:savyor/ui/widget/section_vertical_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:savyor/common/logger/log.dart';
-import 'package:savyor/main.dart';
-import 'package:savyor/ui/base/base_widget.dart';
 
 import '../../application/core/result.dart';
 import '../../application/network/error_handler/error_handler.dart';
@@ -55,9 +50,7 @@ class CustomInAppWebViewState extends State<CustomInAppWebView> implements Resul
       android: AndroidInAppWebViewOptions(
         useHybridComposition: true,
       ),
-      ios: IOSInAppWebViewOptions(
-        allowsInlineMediaPlayback: true,
-      ));
+      ios: IOSInAppWebViewOptions(allowsInlineMediaPlayback: true));
 
   late PullToRefreshController pullToRefreshController;
   late String url = '';
@@ -151,11 +144,12 @@ class CustomInAppWebViewState extends State<CustomInAppWebView> implements Resul
                 if (progress == 100) {
                   pullToRefreshController.endRefreshing();
                 }
-
-                setState(() {
-                  this.progress = progress / 100;
-                  urlController.text = url;
-                });
+                if (mounted) {
+                  setState(() {
+                    this.progress = progress / 100;
+                    urlController.text = url;
+                  });
+                }
               },
               onUpdateVisitedHistory: (controller, url, androidIsReload) {
                 setState(() {
