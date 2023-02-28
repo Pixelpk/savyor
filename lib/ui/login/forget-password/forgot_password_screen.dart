@@ -11,12 +11,13 @@ import 'package:savyor/ui/widget/section_text_field.dart';
 import 'package:savyor/ui/widget/section_vertical_widget.dart';
 import 'package:savyor/ui/widget/ui_background.dart';
 
-import '../../application/core/failure/failure.dart';
-import '../../application/core/result.dart';
-import '../../application/network/error_handler/error_handler.dart';
-import '../widget/flutter_toast.dart';
-import '../widget/loading_overlay.dart';
-import 'login_view_model.dart';
+import '../../../application/core/failure/failure.dart';
+import '../../../application/core/result.dart';
+import '../../../application/main_config/routes/route_path.dart';
+import '../../../application/network/error_handler/error_handler.dart';
+import '../../widget/flutter_toast.dart';
+import '../../widget/loading_overlay.dart';
+import '../login_view_model.dart';
 
 class ForgotPasswordScreen extends BaseStateFullWidget {
   ForgotPasswordScreen({Key? key}) : super(key: key);
@@ -126,6 +127,6 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> implements R
   @override
   onSuccess(ServerResponse result) async {
     SectionToast.show(result.msg);
-    Navigator.pop(context);
+    widget.navigator.pop();
   }
 }

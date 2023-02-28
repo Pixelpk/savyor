@@ -12,6 +12,7 @@ class RouteGenerator {
       case RoutePath.forgotPassword:
         return PageRouter.fadeScale(
             () => ChangeNotifierProvider(create: (_) => LoginViewModel(), child: ForgotPasswordScreen()));
+
       case RoutePath.pinCode:
         return PageRouter.fadeScale(() => PinCodeScreen(email: args as String));
       case RoutePath.signup:

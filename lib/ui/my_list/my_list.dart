@@ -35,18 +35,15 @@ class MyListState extends State<MyList> implements Result<ActiveProduct> {
   // List<Product> list = [];
 
   TextEditingController textEditingController = TextEditingController();
-  late final Timer timer;
+  // late final Timer timer;
   bool inActiveProducts = false;
 
   @override
   void initState() {
-    timer = Timer.periodic(const Duration(seconds: 30), (Timer t) async {
-      d(t.tick);
+    // timer = Timer.periodic(const Duration(seconds: 30), (Timer t) async {
+    //
+    // });
 
-      inActiveProducts
-          ? await context.read<MyListViewModel>().getInActiveProducts(result: this)
-          : await context.read<MyListViewModel>().getActiveProducts(result: this);
-    });
     Future.microtask(() async {
       await context.read<MyListViewModel>().getActiveProducts(result: this);
     });
@@ -56,7 +53,7 @@ class MyListState extends State<MyList> implements Result<ActiveProduct> {
 
   @override
   void dispose() {
-    timer.cancel();
+    // timer.cancel();
     super.dispose();
   }
 
@@ -159,9 +156,9 @@ class MyListState extends State<MyList> implements Result<ActiveProduct> {
                                     () {},
                                   );
                                   if (inActiveProducts) {
-                                    await context.read<MyListViewModel>().getInActiveProducts(result: this);
+                                    await viewModel.getInActiveProducts(result: this);
                                   } else {
-                                    await context.read<MyListViewModel>().getActiveProducts(result: this);
+                                    await viewModel.getActiveProducts(result: this);
                                   }
                                 },
                                 activeColor: Style.primaryColor,
@@ -239,16 +236,22 @@ class MyListState extends State<MyList> implements Result<ActiveProduct> {
                 child: RefreshIndicator(
                   onRefresh: () async {
                     inActiveProducts
-                        ? await context.read<MyListViewModel>().getInActiveProducts(result: this)
-                        : await context.read<MyListViewModel>().getActiveProducts(result: this);
+                        ? await viewModel.getInActiveProducts(result: this)
+                        : await viewModel.getActiveProducts(result: this);
                   },
                   child: ListView.builder(
                       itemCount: viewModel.currentProducts.length,
                       itemBuilder: (_, index) {
                         final product = viewModel.currentProducts[index];
                         product.viewModel = viewModel;
-
-                        return MyListItem(product: product);
+                        return MyListItem(
+                          product: product,
+                          voidCallback: () async {
+                            inActiveProducts
+                                ? await viewModel.getInActiveProducts(result: this)
+                                : await viewModel.getActiveProducts(result: this);
+                          },
+                        );
                       }),
                 ),
               ),

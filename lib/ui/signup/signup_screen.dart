@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:savyor/application/core/extensions/extensions.dart';
 import 'package:savyor/application/main_config/routes/route_path.dart';
@@ -32,6 +35,10 @@ class SignupScreen extends BaseStateFullWidget {
 }
 
 class LoginScreenState extends State<SignupScreen> with RegisterMixin implements Result<User> {
+  XFile? pickedImage;
+
+  late RegisterViewModel register;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +52,7 @@ class LoginScreenState extends State<SignupScreen> with RegisterMixin implements
               width: context.width,
               height: context.height,
               child: Consumer<RegisterViewModel>(builder: (ctx, viewModel, c) {
+                register = viewModel;
                 return LoadingOverLay(
                   loadingState: viewModel.state,
                   child: Form(
@@ -79,8 +87,7 @@ class LoginScreenState extends State<SignupScreen> with RegisterMixin implements
                             ],
                           ),
                         ).onTap(() async {
-                          viewModel.signUpEntity.image = await iMediaService.pickImage();
-                          viewModel.updateState();
+                          pictureDialog();
                         }),
                         SectionTextField(
                           hintText: 'Email Address',
@@ -156,7 +163,9 @@ class LoginScreenState extends State<SignupScreen> with RegisterMixin implements
                                     style: context.textTheme.subtitle2?.copyWith(
                                         color: Style.primaryColor,
                                         fontWeight: FontWeight.w500,
-                                        decoration: TextDecoration.underline))
+                                        decoration: TextDecoration.underline),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () => widget.navigator.pushNamed(RoutePath.privacy))
                               ])),
                         ),
                         widget.dimens.k20.verticalBoxPadding(),
@@ -250,6 +259,76 @@ class LoginScreenState extends State<SignupScreen> with RegisterMixin implements
           ),
         ],
       ),
+    );
+  }
+
+  pictureDialog() {
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+          content: SizedBox(
+            height: 220,
+            width: context.width * 0.8,
+            child: Column(
+              children: [
+                SizedBox.square(
+                    dimension: 150,
+                    child: register.signUpEntity.image != null
+                        ? CircleAvatar(radius: 45, backgroundImage: FileImage(File(register.signUpEntity.image!.path)))
+                        : Assets.defaultProfile),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: BigBtn(
+                        onTap: () async {
+                          register.signUpEntity.image = await iMediaService.captureImage();
+                          widget.navigator.pop();
+                          register.updateState();
+                        },
+                        color: Style.primaryColor,
+                        child: Text(
+                          'Take Photo',
+                          style: context.textTheme.subtitle1?.copyWith(
+                              fontFamily: 'Raleway',
+                              color: Style.scaffoldBackground,
+                              fontWeight: FontWeight.w600,
+                              fontSize: widget.dimens.k16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: BigBtn(
+                        onTap: () async {
+                          register.signUpEntity.image = await iMediaService.pickImage();
+                          widget.navigator.pop();
+
+                          register.updateState();
+                        },
+                        color: Style.primaryColor,
+                        child: Text(
+                          'Select Photo',
+                          style: context.textTheme.subtitle1?.copyWith(
+                              fontFamily: 'Raleway',
+                              color: Style.scaffoldBackground,
+                              fontWeight: FontWeight.w600,
+                              fontSize: widget.dimens.k16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

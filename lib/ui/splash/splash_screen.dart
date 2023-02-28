@@ -3,12 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:savyor/application/main_config/routes/route_path.dart';
-import 'package:savyor/constant/Images/svgs.dart';
 import 'package:savyor/data/local_data_source/preference/i_pref_helper.dart';
 import 'package:savyor/ui/base/base_widget.dart';
 import 'package:savyor/ui/home/home_view_model.dart';
 import 'package:savyor/ui/widget/ui_background.dart';
-
 import '../../common/logger/log.dart';
 import '../../data/models/user.dart';
 import '../../di/di.dart';
@@ -25,8 +23,15 @@ class SplashScreen extends BaseStateFullWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
+  // bool loadSecondAnimation = false;
+
   validateSession() async {
-    Timer(const Duration(seconds: 3), () async {
+    // Timer(const Duration(seconds: 3), () {
+    //   setState(() {
+    //     loadSecondAnimation = true;
+    //   });
+    // });
+    Timer(const Duration(milliseconds: 3500), () async {
       final prefHelper = inject<IPrefHelper>();
 
       if (prefHelper.getBool('isFirstTime') ?? true) {
@@ -57,8 +62,14 @@ class SplashScreenState extends State<SplashScreen> {
     return SafeArea(
         child: Scaffold(
             body: Stack(children: [
+      SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Image.asset('assets/splash_animation.gif',
+              fit: BoxFit.contain, filterQuality: FilterQuality.high, repeat: ImageRepeat.noRepeat)),
       UiBackground(),
-      Padding(padding: const EdgeInsets.symmetric(horizontal: 25), child: Center(child: Assets.logo2x))
+
+      // Padding(padding: const EdgeInsets.symmetric(horizontal: 25), child: Center(child: Assets.logo2x))
     ])));
   }
 }

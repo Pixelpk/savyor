@@ -88,16 +88,16 @@ class MyListViewModel extends BaseViewModel {
     }
 
     if (!_isDec) {
-      hours.sort(
-          (a, b) => a.getRemainingDaysOrHours().split(' ')[0].compareTo(b.getRemainingDaysOrHours().split(' ')[0]));
-      days.sort(
-          (a, b) => a.getRemainingDaysOrHours().split(' ')[0].compareTo(b.getRemainingDaysOrHours().split(' ')[0]));
+      hours.sort((a, b) => int.parse(a.getRemainingDaysOrHours().split(' ')[0])
+          .compareTo(int.parse(b.getRemainingDaysOrHours().split(' ')[0])));
+      days.sort((a, b) => int.parse(a.getRemainingDaysOrHours().split(' ')[0])
+          .compareTo(int.parse(b.getRemainingDaysOrHours().split(' ')[0])));
       _currentProducts = hours + days;
     } else {
-      hours.sort(
-          (a, b) => b.getRemainingDaysOrHours().split(' ')[0].compareTo(a.getRemainingDaysOrHours().split(' ')[0]));
-      days.sort(
-          (a, b) => b.getRemainingDaysOrHours().split(' ')[0].compareTo(a.getRemainingDaysOrHours().split(' ')[0]));
+      hours.sort((a, b) => int.parse(b.getRemainingDaysOrHours().split(' ')[0])
+          .compareTo(int.parse(a.getRemainingDaysOrHours().split(' ')[0])));
+      days.sort((a, b) => int.parse(b.getRemainingDaysOrHours().split(' ')[0])
+          .compareTo(int.parse(a.getRemainingDaysOrHours().split(' ')[0])));
       _currentProducts = days + hours;
     }
     setState();

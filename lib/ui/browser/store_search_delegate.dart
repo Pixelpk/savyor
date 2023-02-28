@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:savyor/constant/Images/svgs.dart';
 import 'package:savyor/constant/style.dart';
-import 'package:savyor/data/models/active_product.dart';
 
 import '../../data/models/supported_store.dart';
 
@@ -28,7 +27,7 @@ class StoreSearchDelegate extends SearchDelegate {
     return Theme.of(context).copyWith(
       inputDecorationTheme: searchFieldDecorationTheme,
       textTheme: Theme.of(context).textTheme.copyWith(
-            headline6: TextStyle(color: Colors.black),
+            headline6: const TextStyle(color: Colors.black),
           ),
     );
   }
@@ -53,7 +52,10 @@ class StoreSearchDelegate extends SearchDelegate {
         onPressed: () {
           close(context, List<String>.empty());
         },
-        icon: const Icon(Icons.arrow_back,color: Colors.white,));
+        icon: const Icon(
+          Icons.arrow_back,
+          color: Colors.white,
+        ));
   }
 
   @override
@@ -67,7 +69,7 @@ class StoreSearchDelegate extends SearchDelegate {
     return matchQuery.isEmpty
         ? Center(
             child: Text(
-              '$query Not Fount',
+              '$query Not Found',
               style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.textHintColor),
             ),
           )
@@ -111,7 +113,7 @@ class StoreSearchDelegate extends SearchDelegate {
     return matchQuery.isEmpty
         ? Center(
             child: Text(
-              '$query Not Fount',
+              '$query Not Found',
               style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.textHintColor),
             ),
           )

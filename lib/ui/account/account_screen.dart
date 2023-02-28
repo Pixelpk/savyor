@@ -15,6 +15,7 @@ import 'package:savyor/ui/base/base_widget.dart';
 import 'package:savyor/ui/widget/big_btn.dart';
 import 'package:savyor/ui/widget/section_horizontal_widget.dart';
 import 'package:savyor/ui/widget/section_vertical_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../di/di.dart';
 
@@ -35,11 +36,14 @@ class AccountScreenState extends State<AccountScreen> {
     super.initState();
   }
 
+  late AccountViewModel account;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Style.scaffoldBackground,
         body: SingleChildScrollView(child: Consumer<AccountViewModel>(builder: (ctx, viewModel, c) {
+          account = viewModel;
           return Padding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
               child: Column(children: [
@@ -56,20 +60,14 @@ class AccountScreenState extends State<AccountScreen> {
                                   radius: 75,
                                   backgroundImage: (pickedImage != null
                                       ? FileImage(File(pickedImage!.path))
-                                      : NetworkImage(viewModel.user!.imageUrl!)) as ImageProvider)
+                                      : CachedNetworkImageProvider(viewModel.user!.imageUrl!)) as ImageProvider)
                               : Assets.defaultProfile),
                       Assets.progress,
                       Positioned(bottom: 0, right: 0, child: Assets.editProfile)
                     ],
                   ),
                 )).onTap(() async {
-                  pickedImage = await mediaService.pickImage();
-                  setState(() {});
-                  final FormData formData = FormData.fromMap({
-                    "image":
-                        await MultipartFile.fromFile(pickedImage!.path, filename: pickedImage!.path.split('/').last),
-                  });
-                  viewModel.updateProfileImage(formData);
+                  pictureDialog();
                 }),
                 widget.dimens.k25.verticalBoxPadding(),
                 Text('Account name',
@@ -130,8 +128,68 @@ class AccountScreenState extends State<AccountScreen> {
                     gap: 15,
                     firstWidget: BigBtn(
                       onTap: () {
-                        viewModel.logout();
-                        widget.navigator.pushNamedAndRemoveUntil(RoutePath.login);
+                        showDialog<bool>(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext dialogContext) {
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                              content: SizedBox(
+                                height: 120,
+                                width: context.width * 0.8,
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                        child: Text(
+                                      "Do you really want to logout?",
+                                      style: context.textTheme.subtitle1?.copyWith(color: Style.textColor),
+                                    )),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: BigBtn(
+                                            onTap: () {
+                                              widget.navigator.pop();
+                                            },
+                                            color: Style.primaryColor,
+                                            child: Text(
+                                              'No',
+                                              style: context.textTheme.subtitle1?.copyWith(
+                                                  fontFamily: 'Raleway',
+                                                  color: Style.scaffoldBackground,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: widget.dimens.k16),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 10),
+                                        Expanded(
+                                          child: BigBtn(
+                                            onTap: () {
+                                              viewModel.logout();
+                                              widget.navigator.pushNamedAndRemoveUntil(RoutePath.login);
+                                            },
+                                            color: Style.primaryColor,
+                                            child: Text(
+                                              'Yes',
+                                              style: context.textTheme.subtitle1?.copyWith(
+                                                  fontFamily: 'Raleway',
+                                                  color: Style.scaffoldBackground,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: widget.dimens.k16),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
                       },
                       color: Style.primaryColor,
                       child: SectionHorizontalWidget(
@@ -148,5 +206,93 @@ class AccountScreenState extends State<AccountScreen> {
                         textAlign: TextAlign.center))
               ]));
         })));
+  }
+
+  pictureDialog() {
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+          content: SizedBox(
+            height: 220,
+            width: context.width * 0.8,
+            child: Column(
+              children: [
+                SizedBox.square(
+                  dimension: 150,
+                  child: account.user?.imageUrl != null || pickedImage != null
+                      ? CircleAvatar(
+                          radius: 75,
+                          backgroundImage: (pickedImage != null
+                              ? FileImage(File(pickedImage!.path))
+                              : NetworkImage(account.user!.imageUrl!)) as ImageProvider)
+                      : Assets.defaultProfile,
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: BigBtn(
+                        onTap: () async {
+                          pickedImage = await mediaService.captureImage();
+                          print(pickedImage!.path);
+                          print(pickedImage!.path.split('/').last);
+                          setState(() {});
+                          final FormData formData = FormData.fromMap({
+                            "image": await MultipartFile.fromFile(pickedImage!.path,
+                                filename: pickedImage!.path.split('/').last),
+                          });
+                          account.updateProfileImage(formData);
+                          Navigator.pop(context);
+                        },
+                        color: Style.primaryColor,
+                        child: Text(
+                          'Take Photo',
+                          style: context.textTheme.subtitle1?.copyWith(
+                              fontFamily: 'Raleway',
+                              color: Style.scaffoldBackground,
+                              fontWeight: FontWeight.w600,
+                              fontSize: widget.dimens.k16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: BigBtn(
+                        onTap: () async {
+                          pickedImage = await mediaService.pickImage();
+                          print(pickedImage!.path);
+                          print(pickedImage!.path.split('/').last);
+                          setState(() {});
+                          final FormData formData = FormData.fromMap({
+                            "image": await MultipartFile.fromFile(pickedImage!.path,
+                                filename: pickedImage!.path.split('/').last),
+                          });
+                          account.updateProfileImage(formData);
+                          Navigator.pop(context);
+                        },
+                        color: Style.primaryColor,
+                        child: Text(
+                          'Select Photo',
+                          style: context.textTheme.subtitle1?.copyWith(
+                              fontFamily: 'Raleway',
+                              color: Style.scaffoldBackground,
+                              fontWeight: FontWeight.w600,
+                              fontSize: widget.dimens.k16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

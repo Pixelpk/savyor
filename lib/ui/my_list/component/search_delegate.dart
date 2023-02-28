@@ -67,7 +67,7 @@ class ProductSearchDelegate extends SearchDelegate {
     return matchQuery.isEmpty
         ? Center(
             child: Text(
-              '$query Not Fount',
+              '$query Not Found',
               style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.textHintColor),
             ),
           )
@@ -103,7 +103,7 @@ class ProductSearchDelegate extends SearchDelegate {
     List<Product> matchQuery = [];
 
     for (Product? item in list) {
-      if (query.trim().isNotEmpty && item!.productName!.toLowerCase().contains(query.toLowerCase().trim())) {
+      if (query.trim().isNotEmpty && item!.retailer!.toLowerCase().contains(query.toLowerCase().trim())) {
         matchQuery.add(item);
       }
     }
@@ -111,7 +111,7 @@ class ProductSearchDelegate extends SearchDelegate {
     return matchQuery.isEmpty
         ? Center(
             child: Text(
-              '$query Not Fount',
+              '$query Not Found',
               style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.textHintColor),
             ),
           )
@@ -126,7 +126,7 @@ class ProductSearchDelegate extends SearchDelegate {
                 dense: true,
                 title: RichText(
                   text: TextSpan(
-                    children: highlightOccurrences(result.productName ?? '', query),
+                    children: highlightOccurrences(result.retailer ?? '', query),
                     style: const TextStyle(fontFamily: 'DM Sans', fontSize: 15, color: Style.unSelectedColor),
                   ),
                 ),

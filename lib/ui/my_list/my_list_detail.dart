@@ -92,24 +92,18 @@ class _MyListDetailState extends State<MyListDetail> implements Result<ServerRes
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            '${retailer?.capitalize()}',
-                            style: context.textTheme.subtitle2
-                                ?.copyWith(fontWeight: FontWeight.w600, color: Style.textColor),
-                          ),
-                          Text(
-                            "\$${widget.utils.compactText(widget.product.currentPrice)}",
-                            style: context.textTheme.subtitle1
-                                ?.copyWith(fontWeight: FontWeight.w600, color: Style.textColor),
-                          ),
-                          AutoSizeText(
-                            widget.utils.compactText(widget.product.productName),
-                            style: context.textTheme.headline6?.copyWith(color: Style.textColor),
-                            maxFontSize: 12,
-                            maxLines: 4,
-                            overflow: TextOverflow.ellipsis,
-                            minFontSize: 12,
-                          ),
+                          Text('${retailer?.capitalize()}',
+                              style: context.textTheme.subtitle2
+                                  ?.copyWith(fontWeight: FontWeight.w600, color: Style.textColor)),
+                          Text("\$${widget.utils.compactText(widget.product.currentPrice)}",
+                              style: context.textTheme.subtitle1
+                                  ?.copyWith(fontWeight: FontWeight.w600, color: Style.textColor)),
+                          AutoSizeText(widget.utils.compactText(widget.product.productName),
+                              style: context.textTheme.headline6?.copyWith(color: Style.textColor),
+                              maxFontSize: 12,
+                              maxLines: 4,
+                              overflow: TextOverflow.ellipsis,
+                              minFontSize: 12),
                           widget.dimens.k8.verticalBoxPadding(),
 
                           // widget.dimens.k8.verticalBoxPadding(),

@@ -6,12 +6,14 @@ import 'package:savyor/constant/Images/svgs.dart';
 import 'package:savyor/constant/style.dart';
 import 'package:savyor/data/models/active_product.dart';
 import 'package:savyor/ui/base/base_widget.dart';
+import 'package:savyor/ui/my_list/my_list.dart';
 import 'package:savyor/ui/widget/section_horizontal_widget.dart';
 import 'package:savyor/ui/widget/section_vertical_widget.dart';
 
 class MyListItem extends BaseStateLessWidget {
-  MyListItem({Key? key, required this.product}) : super(key: key);
+  MyListItem({Key? key, required this.product, required this.voidCallback}) : super(key: key);
   final Product product;
+  final VoidCallback voidCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +51,10 @@ class MyListItem extends BaseStateLessWidget {
                                       ?.copyWith(fontWeight: FontWeight.w600, color: Style.textColor),
                                 ),
                                 GestureDetector(
-                                    onTap: () {
-                                      navigator.pushNamed(RoutePath.detail, object: product);
+                                    onTap: () async {
+                                     await navigator.pushNamed(RoutePath.detail, object: product);
+                                     voidCallback.call();
+
                                     },
                                     child: Assets.edit)
                               ],

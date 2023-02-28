@@ -6,7 +6,7 @@ import 'package:savyor/constant/style.dart';
 import 'package:savyor/data/models/active_product.dart';
 import 'package:savyor/ui/browser/web_view.dart';
 import 'package:savyor/ui/home/home.dart';
-import 'package:savyor/ui/login/forgot_password_screen.dart';
+import 'package:savyor/ui/login/forget-password/forgot_password_screen.dart';
 import 'package:savyor/ui/login/login_screen.dart';
 import 'package:savyor/ui/login/pin_code_screen.dart';
 import 'package:savyor/ui/my_list/my_list_detail.dart';

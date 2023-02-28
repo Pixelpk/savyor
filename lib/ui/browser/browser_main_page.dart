@@ -102,6 +102,9 @@ class BrowserMainPageState extends State<BrowserMainPage> {
               });
             }
           },
+          onSubmitted: (input) async{
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           controller: textEditingController,
           //prefixInsets: const EdgeInsets.only(left: 8.0),
           suffix: Padding(
