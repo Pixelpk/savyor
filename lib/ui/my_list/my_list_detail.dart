@@ -21,6 +21,7 @@ import '../../data/models/active_product.dart';
 import '../../domain/entities/update_product_entity/track_product_entity.dart';
 import '../widget/flutter_toast.dart';
 import '../widget/loading_overlay.dart';
+import '../widget/rounded_text_field.dart';
 
 class MyListDetail extends BaseStateFullWidget {
   MyListDetail({Key? key, required this.product}) : super(key: key);
@@ -37,9 +38,12 @@ class _MyListDetailState extends State<MyListDetail> implements Result<ServerRes
 
   int period = 1;
 
+  late TextEditingController trackPriceController;
+
   @override
   void initState() {
     price = double.tryParse(widget.product.targetPrice.toString()) ?? 0;
+    trackPriceController = TextEditingController(text: "\$${widget.product.targetPrice}");
     period = int.tryParse(widget.product.targetPeriod.toString()) ?? 0;
     widget.product.viewModel?.updateProductState = BaseLoadingState.none;
     super.initState();
@@ -127,37 +131,34 @@ class _MyListDetailState extends State<MyListDetail> implements Result<ServerRes
                           // ),
                           // widget.dimens.k8.verticalBoxPadding(),
                           SectionVerticalWidget(
-                            firstWidget: Text(
-                              'Track price',
-                              style: context.textTheme.subtitle1
-                                  ?.copyWith(fontWeight: FontWeight.normal, color: Style.textColor.withOpacity(0.5)),
-                            ),
+                            firstWidget: Text('Track price',
+                                style: context.textTheme.subtitle1
+                                    ?.copyWith(fontWeight: FontWeight.normal, color: Style.textColor.withOpacity(0.5))),
                             secondWidget: SectionHorizontalWidget(
                               firstWidget: Assets.minus(isZero: price <= 0).onTap(() {
                                 setState(() {
+                                  if (double.parse(trackPriceController.text.replaceAll('\$', '')) > 0) {
+                                    trackPriceController.text =
+                                        (double.parse(trackPriceController.text.replaceAll('\$', '')) - 1.0).toString();
+                                    trackPriceController.text = "\$${trackPriceController.text}";
+                                  }
                                   if (price > 0) {
                                     price -= 1.0;
                                   }
                                 });
                               }),
-                              secondWidget: Container(
-                                constraints: const BoxConstraints(minWidth: 100),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Style.unSelectedColor,
-                                    ),
-                                    borderRadius: BorderRadius.circular(999)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(6),
-                                  child: Text(
-                                    '\$${oCcy.format(price)}',
-                                    style: context.textTheme.subtitle2?.copyWith(color: Style.textColor),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
+                              secondWidget: Expanded(
+                                  child: RoundedTextField(
+                                      textFieldHeight: 34,
+                                      keyboardType: TextInputType.number,
+                                      style: context.textTheme.subtitle2?.copyWith(color: Style.textColor),
+                                      controller: trackPriceController,
+                                      hintText: 'Track Price')),
                               thirdWidget: Assets.plus().onTap(() {
                                 setState(() {
+                                  trackPriceController.text =
+                                      (double.parse(trackPriceController.text.replaceAll('\$', '')) + 1.0).toString();
+                                  trackPriceController.text = "\$${trackPriceController.text}";
                                   price += 1.0;
                                 });
                               }),

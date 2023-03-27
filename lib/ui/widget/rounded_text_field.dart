@@ -19,6 +19,8 @@ class RoundedTextField extends StatelessWidget {
   final BoxDecoration? decoration;
   final BoxConstraints? prefixIconConstraints;
   final BoxConstraints? suffixIconConstraints;
+  final TextStyle? style;
+  final double? textFieldHeight;
 
   const RoundedTextField(
       {required this.hintText,
@@ -27,7 +29,9 @@ class RoundedTextField extends StatelessWidget {
       this.decoration,
       this.suffixIcon,
       this.readOnly = false,
+      this.textFieldHeight,
       this.onChanged,
+      this.style,
       this.validator,
       this.onTap,
       this.keyboardType,
@@ -41,34 +45,38 @@ class RoundedTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-        textAlign: TextAlign.center,
-        controller: controller,
-        obscureText: obscureText ?? false,
-        onChanged: onChanged,
-        validator: validator,
-        readOnly: readOnly,
-        onTap: onTap,
-        keyboardType: keyboardType,
-        textInputAction: textInputAction,
-        focusNode: focusNode,
-        autocorrect: false,
-        style: context.textTheme.headline6?.copyWith(fontWeight: FontWeight.normal, color: Style.textColor),
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-            prefixIconConstraints: prefixIconConstraints,
-            suffixIconConstraints: suffixIconConstraints,
-            suffixIcon: suffixIcon,
-            hintText: hintText,
-            hintStyle: context.textTheme.subtitle2
-                ?.copyWith(color: Style.textHintColor, fontWeight: FontWeight.normal, fontFamily: 'DM Sans'),
-            errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(100), borderSide: const BorderSide(color: Colors.redAccent)),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(100), borderSide: const BorderSide(color: Style.unSelectedColor)),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(100), borderSide: const BorderSide(color: Style.unSelectedColor)),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(100), borderSide: const BorderSide(color: Style.unSelectedColor))));
+    return SizedBox(
+      height: textFieldHeight ?? 45,
+      child: TextFormField(
+          textAlign: TextAlign.center,
+          controller: controller,
+          obscureText: obscureText ?? false,
+          onChanged: onChanged,
+          validator: validator,
+          readOnly: readOnly,
+          onTap: onTap,
+          keyboardType: keyboardType,
+          textInputAction: textInputAction,
+          focusNode: focusNode,
+          autocorrect: false,
+          style: style ?? context.textTheme.headline6?.copyWith(fontWeight: FontWeight.normal, color: Style.textColor),
+          decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(vertical: 0.0),
+              prefixIconConstraints: prefixIconConstraints,
+              suffixIconConstraints: suffixIconConstraints,
+              suffixIcon: suffixIcon,
+              hintText: hintText,
+              hintStyle: context.textTheme.subtitle2
+                  ?.copyWith(color: Style.textHintColor, fontWeight: FontWeight.normal, fontFamily: 'DM Sans'),
+              errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(100), borderSide: const BorderSide(color: Colors.redAccent)),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(100), borderSide: const BorderSide(color: Style.unSelectedColor)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(100), borderSide: const BorderSide(color: Style.unSelectedColor)),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(100),
+                  borderSide: const BorderSide(color: Style.unSelectedColor)))),
+    );
   }
 }

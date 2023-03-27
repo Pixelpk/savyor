@@ -17,7 +17,6 @@ import 'package:savyor/ui/widget/section_horizontal_widget.dart';
 import '../../application/core/failure/failure.dart';
 import '../../application/core/result.dart';
 import '../../application/network/error_handler/error_handler.dart';
-import '../../common/logger/log.dart';
 import '../widget/flutter_toast.dart';
 import '../widget/loading_overlay.dart';
 
@@ -35,6 +34,7 @@ class MyListState extends State<MyList> implements Result<ActiveProduct> {
   // List<Product> list = [];
 
   TextEditingController textEditingController = TextEditingController();
+
   // late final Timer timer;
   bool inActiveProducts = false;
 
@@ -138,7 +138,7 @@ class MyListState extends State<MyList> implements Result<ActiveProduct> {
                     children: [
                       Row(
                         children: [
-                          Text(inActiveProducts ? 'InActive Products' : 'Active Products',
+                          Text(inActiveProducts ? 'InActive' : 'Active',
                               style: context.textTheme.subtitle2
                                   ?.copyWith(fontFamily: 'DM Sans', color: Style.unSelectedColor, fontSize: 15)),
                           const Spacer(),
@@ -246,6 +246,7 @@ class MyListState extends State<MyList> implements Result<ActiveProduct> {
                         product.viewModel = viewModel;
                         return MyListItem(
                           product: product,
+                          isActiveProducts: !inActiveProducts,
                           voidCallback: () async {
                             inActiveProducts
                                 ? await viewModel.getInActiveProducts(result: this)

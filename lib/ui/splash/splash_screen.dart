@@ -31,7 +31,7 @@ class SplashScreenState extends State<SplashScreen> {
     //     loadSecondAnimation = true;
     //   });
     // });
-    Timer(const Duration(milliseconds: 3500), () async {
+    Timer(const Duration(milliseconds: 5500), () async {
       final prefHelper = inject<IPrefHelper>();
 
       if (prefHelper.getBool('isFirstTime') ?? true) {
@@ -68,7 +68,6 @@ class SplashScreenState extends State<SplashScreen> {
           child: Image.asset('assets/splash_animation.gif',
               fit: BoxFit.contain, filterQuality: FilterQuality.high, repeat: ImageRepeat.noRepeat)),
       UiBackground(),
-
       // Padding(padding: const EdgeInsets.symmetric(horizontal: 25), child: Center(child: Assets.logo2x))
     ])));
   }

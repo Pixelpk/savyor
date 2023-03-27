@@ -6,13 +6,14 @@ import 'package:savyor/constant/Images/svgs.dart';
 import 'package:savyor/constant/style.dart';
 import 'package:savyor/data/models/active_product.dart';
 import 'package:savyor/ui/base/base_widget.dart';
-import 'package:savyor/ui/my_list/my_list.dart';
 import 'package:savyor/ui/widget/section_horizontal_widget.dart';
 import 'package:savyor/ui/widget/section_vertical_widget.dart';
 
 class MyListItem extends BaseStateLessWidget {
-  MyListItem({Key? key, required this.product, required this.voidCallback}) : super(key: key);
+  MyListItem({Key? key, required this.product, required this.voidCallback, required this.isActiveProducts})
+      : super(key: key);
   final Product product;
+  final bool isActiveProducts;
   final VoidCallback voidCallback;
 
   @override
@@ -52,9 +53,8 @@ class MyListItem extends BaseStateLessWidget {
                                 ),
                                 GestureDetector(
                                     onTap: () async {
-                                     await navigator.pushNamed(RoutePath.detail, object: product);
-                                     voidCallback.call();
-
+                                      await navigator.pushNamed(RoutePath.detail, object: product);
+                                      voidCallback.call();
                                     },
                                     child: Assets.edit)
                               ],
@@ -102,11 +102,12 @@ class MyListItem extends BaseStateLessWidget {
                                       text: '\$${product.targetPrice} ',
                                       style: context.textTheme.subtitle2
                                           ?.copyWith(fontWeight: FontWeight.w600, color: Style.textColor)),
-                                  const TextSpan(text: 'in '),
-                                  TextSpan(
-                                      text: '${product.getRemainingDaysOrHours()} ',
-                                      style: context.textTheme.subtitle2
-                                          ?.copyWith(fontWeight: FontWeight.w600, color: Style.textColor)),
+                                  if (isActiveProducts) const TextSpan(text: 'in '),
+                                  if (isActiveProducts)
+                                    TextSpan(
+                                        text: '${product.getRemainingDaysOrHours()} ',
+                                        style: context.textTheme.subtitle2
+                                            ?.copyWith(fontWeight: FontWeight.w600, color: Style.textColor)),
                                 ]),
                                 style: context.textTheme.subtitle2
                                     ?.copyWith(fontWeight: FontWeight.normal, color: Style.textColor))
