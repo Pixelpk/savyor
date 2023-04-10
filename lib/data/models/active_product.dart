@@ -152,7 +152,6 @@ class Product {
   String getRemainingDaysOrHours() {
     final pstCreation = timeStampUpdated ?? timeStamp;
     int trackPeriod = period ?? 0;
-
     if (pstCreation != null) {
       final currentDate = DateTime.now();
       final updatedTime = DateTime.tryParse(pstCreation)?.toLocal();

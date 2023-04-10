@@ -232,7 +232,7 @@ class _MyListDetailState extends State<MyListDetail> implements Result<ServerRes
                           productLink: widget.product.productURL,
                           productId: widget.product.iD,
                           targetPeriod: period.toString(),
-                          targetPrice: price.toString(),
+                          targetPrice: trackPriceController.text.replaceAll('\$', ''),
                         );
                         viewModel.updateProduct(this, params);
                       },

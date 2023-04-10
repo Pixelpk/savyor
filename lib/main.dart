@@ -24,7 +24,7 @@ class MyChromeSafariBrowser extends ChromeSafariBrowser {
   @override
   void onClosed() {
     d("ChromeSafari browser closed");
-  }
+  } 
 }
 
 Future<void> main() async {

@@ -458,12 +458,12 @@ class CustomInAppWebViewState extends State<CustomInAppWebView> implements Resul
                         firstWidget: BigBtn(
                           radius: 30,
                           onTap: () {
-                            if (price == 0.0) {
+                            if (double.parse(trackPriceController.text.replaceAll('\$', '')) == 0.0) {
                               SectionToast.show("Price cannot be zero");
                             }
                             if (price != 0.0) {
                               params.targetPeriod = period.toString();
-                              params.targetPrice = price.toString();
+                              params.targetPrice = trackPriceController.text.replaceAll('\$', '');
                               context.read<HomeViewModel>().trackProduct(params, result);
                               widget.navigator.pop();
                             }

@@ -15,9 +15,6 @@ class Style {
   static const cardBg = Color(0xffF8F8F9);
   static const divider = Color(0xffC5C5CD);
 
-
-  static BoxDecoration sectionBoxDecoration({double? radius, BorderRadius? borderRadius, Color? color}) => BoxDecoration(
-        color: color,
-        borderRadius: borderRadius ?? BorderRadius.circular(radius ?? 10),
-      );
+  static BoxDecoration sectionBoxDecoration({double? radius, BorderRadius? borderRadius, Color? color}) =>
+      BoxDecoration(color: color, borderRadius: borderRadius ?? BorderRadius.circular(radius ?? 10));
 }
