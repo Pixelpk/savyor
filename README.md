@@ -1,4 +1,4 @@
-# savyor app is price tracking app, involve data scrapping 
+# Savyor app is price tracking app, involve data scrapping 
 
 
 This app allows users to visit online retailers (e.g. Amazon) using the browser in the app, and send data back to the backend db using established APIs, including product information, tracking target price, and tracking target period; with the ultimate goal to help users save money.  
@@ -8,5 +8,8 @@ The supported retailers can be retrieved with API (postman example to be provide
 
 ## Screens
 
-![Screen]([https://thehappypuppysite.com/wp-content/uploads/2017/10/Cute-Dog-Names-HP-long.jpg](https://github.com/Pixelpk/savyor/blob/main/assets/21.png)https://github.com/Pixelpk/savyor/blob/main/assets/21.png)
+![screens](https://github.com/Pixelpk/savyor/blob/main/assets/21.png)
+
+![screens](https://github.com/Pixelpk/savyor/blob/main/assets/212.png)
+![screens](https://github.com/Pixelpk/savyor/blob/main/assets/213.png)
 
